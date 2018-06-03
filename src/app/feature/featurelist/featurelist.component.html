@@ -16,9 +16,10 @@
 </mat-nav-list> -->
 
 <mat-nav-list>
-  <a href="#" (click)="toggle()">
+  <a routerLink="." (click)="toggle()">
     <h3 mat-subheader>Feature1</h3>
   </a>
+
   <section *ngIf="show">
     <a mat-list-item href="#" *ngFor="let folder of folders; index as i last as last">
       <mat-icon mat-list-icon>web</mat-icon>
@@ -26,14 +27,14 @@
       <p mat-line> 23 steps </p>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </a>
-
   </section>
-  <mat-divider></mat-divider>
+
+  <!-- <mat-divider></mat-divider>
   <h3>Feature2</h3>
   <a mat-list-item href="#" *ngFor="let folder of folders; last as last">
     <mat-icon mat-list-icon>web</mat-icon>
     <h3 matLine>{{folder.name}}</h3>
     <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-  </a>
+  </a> -->
 
 </mat-nav-list>
