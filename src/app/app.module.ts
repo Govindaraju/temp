@@ -16,6 +16,7 @@ import { FeaturelistComponent } from './feature/featurelist/featurelist.componen
 import { AddfeatureComponent } from './feature/addfeature/addfeature.component';
 import { HomeComponent } from './home/home.component';
 import { RunfeatureComponent } from './runfeature/runfeature.component';
+import { SteplistComponent } from './feature/steplist/steplist.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RunfeatureComponent } from './runfeature/runfeature.component';
     FeaturelistComponent,
     AddfeatureComponent,
     HomeComponent,
-    RunfeatureComponent
+    RunfeatureComponent,
+    SteplistComponent
   ],
   imports: [
     BrowserModule,

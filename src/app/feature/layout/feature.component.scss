@@ -1,6 +1,16 @@
-
-  .feature {
+.feature-layout-class{
     padding: 4rem 4rem;
     font-family: 'Roboto', sans-serif;
-  }
+}
 
+.child1{
+   // width:200px;
+   // height: 200px;
+    background-color: red;
+}
+
+.child2{
+    //width:600px;
+    //height: 200px;
+    background-color: blue;
+}

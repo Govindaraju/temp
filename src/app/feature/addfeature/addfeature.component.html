@@ -1,41 +1,46 @@
-<section>
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <button mat-raised-button color="primary" (click)="enableAddFeature()" [disabled]="addFeatureEnabled">Add New Feature</button>
-
-    <div>
-      <form fxLayout="column" fxLayoutGap="20px" [formGroup]="addFeatureForm">
-
-        <div id="featureSection" fxLayout fxLayoutGap="10px" *ngIf="addFeatureEnabled">
-          <mat-form-field>
-            <input type="text" matInput formControlName="feature" [readonly]="addScenarioEnabled">
-            <mat-hint>Enter feature description</mat-hint>
-            <mat-error>Missing description for feature</mat-error>
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="addScenario()" [disabled]="addFeatureForm.get('feature').invalid">Add New Scenario</button>
-        </div>
-
-        <div id="scenarioSection" fxLayout fxLayoutGap="10px" *ngIf="addScenarioEnabled">
-          <mat-form-field>
-            <input type="text" matInput formControlName="scenario">
-            <mat-hint>Please enter scenarion description.</mat-hint>
-            <mat-error *ngIf="addFeatureForm.get('scenario').touched">Missing description for scenario</mat-error>
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="addStep()" [disabled]="addFeatureForm.get('scenario').invalid">Add New Step</button>
-        </div>
-
-        <div id="stepSection" fxLayout fxLayoutGap="10px" *ngIf="addStepEnabled">
-          <mat-form-field>
-            <input type="text" matInput formControlName="step">
-            <mat-hint>Please enter step description.</mat-hint>
-          </mat-form-field>
-        </div>
-
-        <div fxLayoutAlign="center center">
-          <button type="submit" mat-raised-button color="primary" [disabled]="addFeatureForm.invalid">Save Feature</button>
-        </div>
-
-      </form>
-    </div>
+<div fxLayout="column" fxLayoutGap="20px">
+  <div fxLayoutAlign="center">
+    <button class="button-wh-150-50" mat-raised-button color="primary" (click)="enableAddFeature()" [disabled]="addFeatureEnabled">Add New Feature</button>
   </div>
 
-</section>
+
+  <div>
+    <form fxLayout="column" fxLayoutGap="20px" [formGroup]="addFeatureForm">
+
+      <div id="featureSection" fxLayout fxLayoutGap="10px" *ngIf="addFeatureEnabled">
+        <mat-form-field>
+          <input type="text" matInput formControlName="feature" [readonly]="addScenarioEnabled">
+          <mat-hint>Enter feature description</mat-hint>
+          <mat-error>Missing description for feature</mat-error>
+        </mat-form-field>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addScenario()" [disabled]="addFeatureForm.get('feature').invalid">Add New Scenario</button>
+      </div>
+
+      <div id="scenarioSection" fxLayout fxLayoutGap="10px" *ngIf="addScenarioEnabled">
+        <mat-form-field>
+          <input type="text" matInput formControlName="scenario">
+          <mat-hint>Please enter scenarion description.</mat-hint>
+          <mat-error *ngIf="addFeatureForm.get('scenario').touched">Missing description for scenario</mat-error>
+        </mat-form-field>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addStep()" [disabled]="addFeatureForm.get('scenario').invalid">Add New Step</button>
+      </div>
+
+      <div id="listOfSteps">
+        <app-steplist></app-steplist>
+      </div>
+
+      <div id="stepSection" fxLayout fxLayoutGap="10px" *ngIf="addStepEnabled">
+        <mat-form-field>
+          <input type="text" matInput formControlName="step">
+          <mat-hint>Please enter step description.</mat-hint>
+        </mat-form-field>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="nextStep()">Next Step</button>
+      </div>
+
+      <div fxLayoutAlign="center">
+        <button class="button-wh-150-50" type="submit" mat-raised-button color="primary" [disabled]="addFeatureForm.invalid">Save Feature</button>
+      </div>
+      
+    </form>
+  </div>
+</div>
