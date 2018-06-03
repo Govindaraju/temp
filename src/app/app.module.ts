@@ -11,7 +11,6 @@ import { MaterialModule } from './common/material.module';
 import { FeatureComponent } from './feature/layout/feature.component';
 import { ReportsComponent } from './reports/reports.component';
 import { FeaturelistComponent } from './feature/featurelist/featurelist.component';
-import { TreeComponent } from './feature/tree/temp/tree.component';
 
 
 @NgModule({
@@ -20,8 +19,7 @@ import { TreeComponent } from './feature/tree/temp/tree.component';
     ToolbarComponent,
     FeatureComponent,
     ReportsComponent,
-    FeaturelistComponent,
-    TreeComponent
+    FeaturelistComponent
   ],
   imports: [
     BrowserModule,
