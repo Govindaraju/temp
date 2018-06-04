@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Step } from '../model/step';
+import { Feature } from '../model/feature';
+import { Scenario } from '../model/scenario';
+import { Util } from '../../common/Util';
 
 @Component({
   selector: 'app-addfeature',
@@ -12,7 +15,8 @@ export class AddfeatureComponent implements OnInit {
   addFeatureEnabled: boolean;
   addScenarioEnabled: boolean;
   addStepEnabled: boolean;
-  steps: Step[] = [];
+  feature: Feature;
+  currentScenario: Scenario;
 
   constructor() { }
 
@@ -34,19 +38,26 @@ export class AddfeatureComponent implements OnInit {
   }
 
   addScenario() {
-    console.log('addFeatureForm ', this.addFeatureForm.get('feature').value);
+    this.feature = new Feature();
+    this.feature.id = Util.key();
+    this.feature.description = this.addFeatureForm.get('feature').value;
+    console.log('addFeatureForm : feature', this.feature);
     this.addScenarioEnabled = true;
   }
 
   addStep() {
+    this.currentScenario = new Scenario();
+    this.currentScenario.id = Util.key();
+    this.currentScenario.description = this.addFeatureForm.get('scenario').value;
+    this.feature.scenarios.push(this.currentScenario);
     this.addStepEnabled = true;
   }
 
-  nextStep(){
+  nextStep() {
     const step = this.addFeatureForm.get("step").value;
-    console.log("step text ",step);
+    console.log("step text ", step);
     this.addFeatureForm.get("step").setValue(null);
-    this.steps.push(step);
-    console.log("steps so far ",this.steps);
+    this.currentScenario.steps.push(step);
+    console.log("steps so far ", this.currentScenario.steps);
   }
 }

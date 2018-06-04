@@ -3,9 +3,8 @@
     <button class="button-wh-150-50" mat-raised-button color="primary" (click)="enableAddFeature()" [disabled]="addFeatureEnabled">Add New Feature</button>
   </div>
 
-
   <div>
-    <form fxLayout="column" fxLayoutGap="20px" [formGroup]="addFeatureForm">
+    <form fxLayout="column" fxLayoutGap="20px" [formGroup]="addFeatureForm" fxLayoutAlign="center">
 
       <div id="featureSection" fxLayout fxLayoutGap="10px" *ngIf="addFeatureEnabled">
         <mat-form-field>
@@ -40,7 +39,7 @@
       <div fxLayoutAlign="center">
         <button class="button-wh-150-50" type="submit" mat-raised-button color="primary" [disabled]="addFeatureForm.invalid">Save Feature</button>
       </div>
-      
+
     </form>
   </div>
 </div>

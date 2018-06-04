@@ -1,5 +1,5 @@
-export interface Step {
-    id : number;
+export class Step {
+    id : string;
     prefix: string;
     description: string;
 }

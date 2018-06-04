@@ -9,10 +9,10 @@ import { Step } from '../model/step';
 export class SteplistComponent implements OnInit {
 
   steps: Step[] = [
-    { id: 1, prefix: 'Given', description: 'An instance of a calculator' },
-    { id: 2, prefix: 'when', description: 'Two integers 5, and 8 are passed Two integers 5, and 8 are passed' },
-    { id: 3, prefix: 'And', description: 'addNumbers is called' },
-    { id: 4, prefix: 'Then', description: 'I should get 13 as the sum' },
+    { id: "1", prefix: 'Given', description: 'An instance of a calculator' },
+    { id: "2", prefix: 'when', description: 'Two integers 5, and 8 are passed Two integers 5, and 8 are passed' },
+    { id: "3", prefix: 'And', description: 'addNumbers is called' },
+    { id: "4", prefix: 'Then', description: 'I should get 13 as the sum' },
   ];
 
   displayedColumns = ['prefix', 'description','buttons'];

@@ -1,6 +1,7 @@
 import { Step } from "./step";
 
-export interface Scenario {
-    description : string;
-    steps : Step[];
+export class Scenario {
+    id: string;
+    description: string;
+    steps: Step[] = [];
 }

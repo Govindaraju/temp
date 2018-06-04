@@ -1,7 +1,7 @@
 import { Scenario } from "./scenario";
 
-export interface Feature {
-    id : string;
-    description : string;
-    scenarios : Scenario[];
+export class Feature {
+    id: string;
+    description: string;
+    scenarios: Scenario[] = [];
 }
