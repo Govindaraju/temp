@@ -1,40 +1,49 @@
 <div fxLayout="column" fxLayoutGap="20px">
-  <div fxLayoutAlign="center">
-    <button class="button-wh-150-50" mat-raised-button color="primary" (click)="enableAddFeature()" [disabled]="addFeatureEnabled">Add New Feature</button>
-  </div>
 
   <div>
     <form fxLayout="column" fxLayoutGap="20px" [formGroup]="addFeatureForm" fxLayoutAlign="center">
 
-      <div id="featureSection" fxLayout fxLayoutGap="10px" *ngIf="addFeatureEnabled">
+      <div id="featureSection" fxLayout fxLayoutGap="10px">
         <mat-form-field>
-          <input type="text" matInput formControlName="feature" [readonly]="addScenarioEnabled">
+          <input type="text" matInput formControlName="feature" [readonly]="!showFeatureSection">
+          <span matPrefix>Feature : </span>
           <mat-hint>Enter feature description</mat-hint>
           <mat-error>Missing description for feature</mat-error>
         </mat-form-field>
-        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addScenario()" [disabled]="addFeatureForm.get('feature').invalid">Add New Scenario</button>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addFeature()" [disabled]="!showFeatureSection">Add New Feature</button>
       </div>
 
-      <div id="scenarioSection" fxLayout fxLayoutGap="10px" *ngIf="addScenarioEnabled">
+      <div id="scenarioSection" fxLayout fxLayoutGap="10px" *ngIf="showScenarioSection">
+        <mat-form-field>
+          <input type="text" matInput formControlName="scenario">
+          <span matPrefix>Scenario : </span>
+          <mat-hint>Enter scenario description</mat-hint>
+          <mat-error>Missing description for scenario</mat-error>
+        </mat-form-field>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addScenario()">Add New Scenario</button>
+      </div>
+
+      <div id="listOfSteps">
+          <app-steplist></app-steplist>
+      </div>
+  
+      <div id="stepSection" fxLayout fxLayoutGap="10px" *ngIf="showStepSection">
+        <mat-form-field>
+          <input type="text" matInput formControlName="step">
+          <span matPrefix>Step : </span>
+          <mat-hint>Enter step description.</mat-hint>
+        </mat-form-field>
+        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addStep()">Add New Step</button>
+      </div>
+
+      <!-- <div id="scenarioSection" fxLayout fxLayoutGap="10px" *ngIf="addScenarioEnabled">
         <mat-form-field>
           <input type="text" matInput formControlName="scenario">
           <mat-hint>Please enter scenarion description.</mat-hint>
           <mat-error *ngIf="addFeatureForm.get('scenario').touched">Missing description for scenario</mat-error>
         </mat-form-field>
         <button class="button-wh-150-50" mat-raised-button color="primary" (click)="addStep()" [disabled]="addFeatureForm.get('scenario').invalid">Add New Step</button>
-      </div>
-
-      <div id="listOfSteps">
-        <app-steplist></app-steplist>
-      </div>
-
-      <div id="stepSection" fxLayout fxLayoutGap="10px" *ngIf="addStepEnabled">
-        <mat-form-field>
-          <input type="text" matInput formControlName="step">
-          <mat-hint>Please enter step description.</mat-hint>
-        </mat-form-field>
-        <button class="button-wh-150-50" mat-raised-button color="primary" (click)="nextStep()">Next Step</button>
-      </div>
+      </div> -->
 
       <div fxLayoutAlign="center">
         <button class="button-wh-150-50" type="submit" mat-raised-button color="primary" [disabled]="addFeatureForm.invalid">Save Feature</button>

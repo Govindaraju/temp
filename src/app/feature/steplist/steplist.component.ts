@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+
+
 import { Step } from '../model/step';
+import { Util } from '../../common/Util';
+import { of, Observable } from 'rxjs';
+import { DataSource } from '@angular/cdk/collections';
+import { FeatureserviceService } from '../../common/featureservice.service';
+import { FeatureDataSource } from '../../common/featureDataSource';
 
 @Component({
   selector: 'app-steplist',
@@ -8,34 +16,27 @@ import { Step } from '../model/step';
 })
 export class SteplistComponent implements OnInit {
 
-  steps: Step[] = [
-    { id: "1", prefix: 'Given', description: 'An instance of a calculator' },
-    { id: "2", prefix: 'when', description: 'Two integers 5, and 8 are passed Two integers 5, and 8 are passed' },
-    { id: "3", prefix: 'And', description: 'addNumbers is called' },
-    { id: "4", prefix: 'Then', description: 'I should get 13 as the sum' },
-  ];
+  displayedColumns = ['description', 'buttons'];
+  dataSource : FeatureDataSource;
+   
 
-  displayedColumns = ['prefix', 'description','buttons'];
-  dataSource = this.steps;
-
-  constructor() { }
+  constructor(private featureService: FeatureserviceService) { }
 
   ngOnInit() {
+    this.dataSource = new FeatureDataSource(this.featureService);
+    this.dataSource.loadSteps();
   }
 
   edit(id) {
-    console.log('id', id);
-    this.step(id);
   }
 
   delete(id) {
-    console.log('id', id);
-    this.step(id);
   }
 
-  private step(id){
-    const filterdStep = this.steps.find(step => step.id === id);
-    console.log('filterd step',filterdStep);
+  private step(id) {
+    // const filterdStep = this.steps.find(step => step.id === id);
+    // console.log('filterd step', filterdStep);
   }
 
 }
+
