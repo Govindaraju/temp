@@ -5,3 +5,32 @@ table {
 .centered-cell {
     text-align: center;
   }
+
+.description-column {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 60% !important;
+    width: 60% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+    
+    }
+    
+.steps-Column{
+    flex: 0 0 5% !important;
+    width: 5% !important;
+    text-align: center;
+    }
+    
+.actions-Column{
+    flex: 0 0 35% !important;
+    width: 3  5% !important;
+    text-align: center;
+    }
+  

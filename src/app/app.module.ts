@@ -10,13 +10,18 @@ import { AppComponent } from './app.component';
 
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { MaterialModule } from './common/material.module';
-import { FeatureComponent } from './feature/layout/feature.component';
+
 import { ReportsComponent } from './reports/reports.component';
 import { FeaturelistComponent } from './feature/featurelist/featurelist.component';
 import { AddfeatureComponent } from './feature/addfeature/addfeature.component';
 import { HomeComponent } from './home/home.component';
 import { RunfeatureComponent } from './runfeature/runfeature.component';
 import { SteplistComponent } from './feature/steplist/steplist.component';
+import { ScenariolistComponent } from './feature/scenariolist/scenariolist.component';
+import { LayoutComponent } from './featureaccordian/layout/layout.component';
+import { ScenarioComponent } from './featureaccordian/scenario/scenario.component';
+import { StepComponent } from './featureaccordian/step/step.component';
+import { FeatureComponent } from './featureaccordian/feature/feature.component';
 
 
 @NgModule({
@@ -29,7 +34,11 @@ import { SteplistComponent } from './feature/steplist/steplist.component';
     AddfeatureComponent,
     HomeComponent,
     RunfeatureComponent,
-    SteplistComponent
+    SteplistComponent,
+    ScenariolistComponent,
+    LayoutComponent,
+    ScenarioComponent,
+    StepComponent
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { Step } from '../model/step';
+import { Util } from '../../common/Util';
 import { Feature } from '../model/feature';
 import { Scenario } from '../model/scenario';
-import { Util } from '../../common/Util';
-import { FeatureserviceService } from '../../common/featureservice.service';
+import { FeatureserviceService } from '../../common/service/featureservice.service';
+
 
 @Component({
   selector: 'app-addfeature',
@@ -13,16 +15,15 @@ import { FeatureserviceService } from '../../common/featureservice.service';
 })
 export class AddfeatureComponent implements OnInit {
   addFeatureForm: FormGroup;
-  feature: Feature;
-  currentScenario: Scenario;
+  feature: Feature = new Feature();
+  currentScenario: Scenario = new Scenario();
 
   showFeatureSection = true;
   showScenarioSection = false;
   disableAddScenario = false;
   showStepSection = false;
-  showExistingSteps = false;
 
-  constructor(private featureService : FeatureserviceService) { }
+  constructor(private featureService: FeatureserviceService) { }
 
   ngOnInit() {
     this.addFeatureForm = new FormGroup({
@@ -34,7 +35,7 @@ export class AddfeatureComponent implements OnInit {
       }),
       step: new FormControl('')
     });
-    this.featureService.getSteps().subscribe(data => {console.log("steps",data);})
+ 
   }
 
   addFeature() {
@@ -45,7 +46,6 @@ export class AddfeatureComponent implements OnInit {
     this.showFeatureSection = false;
     this.showScenarioSection = true;
 
-    console.log('addFeatureForm : feature', this.feature);
   }
 
   addScenario() {
@@ -54,20 +54,31 @@ export class AddfeatureComponent implements OnInit {
     this.currentScenario.description = this.addFeatureForm.get('scenario').value;
     this.feature.scenarios.push(this.currentScenario);
 
+    this.featureService.updateScenario({ ...this.currentScenario });
+
     this.disableAddScenario = true;
     this.showStepSection = true;
 
-    console.log('addFeatureForm : feature', this.feature);
+
   }
 
   addStep() {
     const step = new Step();
     step.id = Util.key();
     step.description = this.addFeatureForm.get("step").value;
+
     this.currentScenario.steps.push(step);
+
     this.addFeatureForm.get("step").setValue(null);
-    console.log('addFeatureForm : feature', this.feature);
-    this.featureService.updateStep({...step});
-    this.featureService.getSteps().subscribe(data => {console.log("addStep ",data);})
+
+    this.featureService.updateStep({ ...step });
+  }
+
+  stepsExist() {
+    return this.currentScenario.steps.length > 0;
+  }
+
+  scenariosExist() {
+    return this.feature.scenarios.length > 0;
   }
 }

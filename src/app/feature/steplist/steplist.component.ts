@@ -1,13 +1,12 @@
+import { of, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
-
 import { Step } from '../model/step';
 import { Util } from '../../common/Util';
-import { of, Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
-import { FeatureserviceService } from '../../common/featureservice.service';
-import { FeatureDataSource } from '../../common/featureDataSource';
+import { StepDataSource } from '../../common/datasource/stepDataSource';
+import { FeatureserviceService } from '../../common/service/featureservice.service';
 
 @Component({
   selector: 'app-steplist',
@@ -17,13 +16,13 @@ import { FeatureDataSource } from '../../common/featureDataSource';
 export class SteplistComponent implements OnInit {
 
   displayedColumns = ['description', 'buttons'];
-  dataSource : FeatureDataSource;
-   
+  dataSource: StepDataSource;
+
 
   constructor(private featureService: FeatureserviceService) { }
 
   ngOnInit() {
-    this.dataSource = new FeatureDataSource(this.featureService);
+    this.dataSource = new StepDataSource(this.featureService);
     this.dataSource.loadSteps();
   }
 

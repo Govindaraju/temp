@@ -9,4 +9,7 @@ html, body {
   body {
     margin: 0;
   }
-  
+  /* This to avoid the yellow background whilst doing auto complete of the input fields*/
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}

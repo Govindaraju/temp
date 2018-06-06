@@ -5,12 +5,14 @@ import { ReportsComponent } from './reports/reports.component';
 import { HomeComponent } from './home/home.component';
 import { RunfeatureComponent } from './runfeature/runfeature.component';
 import { SteplistComponent } from './feature/steplist/steplist.component';
+import { ScenariolistComponent } from './feature/scenariolist/scenariolist.component';
+import { LayoutComponent } from './featureaccordian/layout/layout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'features', component: FeatureComponent },
+  { path: 'features', component: LayoutComponent },
   { path: 'reports', component: ReportsComponent },
-  { path: 'run-feature', component: SteplistComponent }
+  { path: 'run-feature', component: ScenariolistComponent }
 ];
 
 @NgModule({
