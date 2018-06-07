@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { FeatureserviceService } from '../../common/service/featureservice.service';
 import { FeatureDataSource } from '../../common/datasource/featureDataSource';
+import { BridgeService } from "../common/bridge.service";
 import { Feature } from '../../feature/model/feature';
 import { Util } from '../../common/Util';
 
@@ -17,7 +19,7 @@ export class FeatureComponent implements OnInit {
   displayedColumns = ['description', 'noOfScenarios', 'buttons'];
   dataSource: FeatureDataSource;
 
-  constructor(private featureService: FeatureserviceService) { }
+  constructor(private featureService: FeatureserviceService, private bridgeService: BridgeService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -34,8 +36,9 @@ export class FeatureComponent implements OnInit {
 
   }
 
-  addScenario() {
-
+  addScenario(featureID) {
+    console.log("addScenario called feature component ", featureID);
+    this.bridgeService.featureSelected(featureID);
   }
 
   edit(id) {

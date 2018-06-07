@@ -47,4 +47,7 @@ export class FeatureserviceService {
     return this.stepsSource.asObservable();
   }
 
+  feature(id) {
+    return this.features.find(feature => feature.id === id);
+  }
 }

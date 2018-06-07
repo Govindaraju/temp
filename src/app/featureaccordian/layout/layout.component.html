@@ -1,7 +1,7 @@
 <div fxLayout fxLayoutAlign="center center" class="feature-accordian-class">
   <mat-accordion class="accordian-headers-align">
 
-    <mat-expansion-panel hideToggle="true">
+    <mat-expansion-panel hideToggle="true" [expanded]="pannelToBeExpanded === 'FEATURE'" (opened)="setPanel('FEATURE')">
 
       <mat-expansion-panel-header>
         <mat-panel-title>Features</mat-panel-title>
@@ -12,15 +12,18 @@
 
     </mat-expansion-panel>
 
-    <mat-expansion-panel hideToggle="true">
+    <mat-expansion-panel hideToggle="true" [expanded]="pannelToBeExpanded === 'SCENARIO'" (opened)="setPanel('SCENARIO')">
       <mat-expansion-panel-header>
         <mat-panel-title>Scenarios</mat-panel-title>
         <mat-icon color="primary">speaker_notes</mat-icon>
       </mat-expansion-panel-header>
+
+      <app-scenario></app-scenario>
+
     </mat-expansion-panel>
 
 
-    <mat-expansion-panel hideToggle="true">
+    <mat-expansion-panel hideToggle="true" [expanded]="pannelToBeExpanded === 'STEP'" (opened)="setPanel('STEP')">
       <mat-expansion-panel-header>
         <mat-panel-title>Steps</mat-panel-title>
         <mat-icon color="primary">playlist_add_check</mat-icon>
