@@ -54,7 +54,7 @@ export class AddfeatureComponent implements OnInit {
     this.currentScenario.description = this.addFeatureForm.get('scenario').value;
     this.feature.scenarios.push(this.currentScenario);
 
-    this.featureService.updateScenario({ ...this.currentScenario });
+   // this.featureService.updateScenario({ ...this.currentScenario });
 
     this.disableAddScenario = true;
     this.showStepSection = true;
@@ -71,7 +71,7 @@ export class AddfeatureComponent implements OnInit {
 
     this.addFeatureForm.get("step").setValue(null);
 
-    this.featureService.updateStep({ ...step });
+    //this.featureService.updateStep({ ...step });
   }
 
   stepsExist() {

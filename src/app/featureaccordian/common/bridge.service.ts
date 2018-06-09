@@ -8,12 +8,20 @@ import { FeatureserviceService } from '../../common/service/featureservice.servi
 })
 export class BridgeService {
 
-  public selectedFeature = new Subject<String>();
+
+  public selectedFeature = new Subject<string>();
+  public selectedScenario = new Subject<string>();
+
   constructor() { }
 
   featureSelected(featureID) {
     console.log("featureSelected in BridgeService", featureID);
     this.selectedFeature.next(featureID);
+  }
+
+  scenarioSelected(scenarioID) {
+    console.log("scenarioSelected in BridgeService", scenarioID);
+    this.selectedScenario.next(scenarioID);
   }
 
 }

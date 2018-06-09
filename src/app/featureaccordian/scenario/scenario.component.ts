@@ -15,20 +15,22 @@ import { Feature } from '../../feature/model/feature';
 })
 export class ScenarioComponent implements OnInit {
 
+  featureBeingEdited: string;
   featureForm: FormGroup;
 
   displayedColumns = ['description', 'noOfScenarios', 'buttons'];
 
   dataSource: ScenarioDataSource;
-  currentFeature: Feature;
-
+  
   constructor(private featureService: FeatureserviceService, private bridgeService: BridgeService) { }
 
   ngOnInit() {
     console.log('scenario component loaed');
     this.buildForm();
     this.initialiseDataSource();
-    this.bridgeService.selectedFeature.subscribe(data => console.log('ScenarioComponent : data ',data));
+    this.bridgeService.selectedFeature.subscribe(featureID => {
+      this.featureBeingEdited = featureID;
+    });
   }
 
   addScenario() {
@@ -37,7 +39,12 @@ export class ScenarioComponent implements OnInit {
     scenario.description = this.featureForm.get('scenario').value;
     this.featureForm.get('scenario').setValue(null);
 
-    this.featureService.updateScenario(scenario);
+    this.featureService.updateScenario(this.featureBeingEdited, scenario);
+  }
+
+  addStep(scenarioID) {
+    console.log("addStep called ScenarioComponent component ", scenarioID);
+    this.bridgeService.scenarioSelected(scenarioID);
   }
 
   edit(id) {

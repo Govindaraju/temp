@@ -7,21 +7,29 @@ import { BridgeService } from '../common/bridge.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  
+
+
   pannelToBeExpanded = "FEATURE";
 
   constructor(private bridgeService: BridgeService) { }
 
   ngOnInit() {
     this.bridgeService.selectedFeature.subscribe(data => this.onFeatureSelected(data));
+    this.bridgeService.selectedScenario.subscribe(data => this.onScenarioSelected(data));
   }
 
-  onFeatureSelected(featureID){
-    console.log('onFeatureSelected in layout component ',featureID);
+  onFeatureSelected(featureID) {
+    console.log('onFeatureSelected in layout component ', featureID);
     this.pannelToBeExpanded = "SCENARIO";
   }
 
-  setPanel(openedPannel){
+  onScenarioSelected(scenarioID) {
+    console.log('onFeatureSelected in layout component ', scenarioID);
+    this.pannelToBeExpanded = "STEP";
+  }
+
+  setPanel(openedPannel) {
     this.pannelToBeExpanded = openedPannel;
   }
+
 }

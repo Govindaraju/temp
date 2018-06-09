@@ -22,6 +22,7 @@ import { LayoutComponent } from './featureaccordian/layout/layout.component';
 import { ScenarioComponent } from './featureaccordian/scenario/scenario.component';
 import { StepComponent } from './featureaccordian/step/step.component';
 import { FeatureComponent } from './featureaccordian/feature/feature.component';
+import { SimplefeatureComponent } from './simplefeature/simplefeature.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { FeatureComponent } from './featureaccordian/feature/feature.component';
     ScenariolistComponent,
     LayoutComponent,
     ScenarioComponent,
-    StepComponent
+    StepComponent,
+    SimplefeatureComponent
   ],
   imports: [
     BrowserModule,
