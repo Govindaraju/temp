@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import {NgPipesModule} from 'ngx-pipes';
 
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { MaterialModule } from './common/material.module';
@@ -49,7 +50,8 @@ import { SimplefeatureComponent } from './simplefeature/simplefeature.component'
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgPipesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,119 @@
+.feature-section-class{
+    padding:1rem 1rem;
+    font-family: 'Roboto', sans-serif;
+  }
+
+.feature-class{
+    padding:1rem 1rem;
+}
+
+.button-wh-70-50{
+    width: 70px;
+    height: 50px;   
+  }
+
+.sidebar{
+    background-color:seashell;
+    min-height: 800px;
+}
+
+.form-class{
+    padding:1rem 1rem;
+    width: 100%; 
+}
+
+.sidebar-feature-class{
+    padding: 15px 15px;
+    text-align: center;
+    background-color: lightskyblue;
+    color: white;
+}
+
+.list-features-class{
+    width: 100%; 
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px lightgrey inset;
+}
+
+.button-wh-150-50{
+    width: 160px;
+    height: 50px;   
+}
+
+.feature{
+    background-color: lightgray;
+    padding:1rem 1rem;
+    width: 100%;  
+}
+
+.scenario{
+    background-color: lavender;
+    padding:1rem 1rem;
+    width: 100%;  
+}
+
+.step{
+    background-color: honeydew;
+    padding:1rem 1rem;
+    width: 100%;  
+}
+
+mat-form-field {
+    width: 100%;
+    //font-size: 16px;
+}
+
+span[matPrefix]{
+    //font-size: 26px;
+    color: lightgrey
+  }
+.prefixClass{
+    //margin:2px 2px,2px,15px;
+    padding: 1px 1px 4px 1px;
+    color: white;
+    font-size: 14px;
+    color: red;
+}
+
+.word-wrap{
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 60% !important;
+    width: 60% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+    
+    }
+    $icon-small-container-size: 32px;
+    $icon-small-size: 16px;
+    
+.mat-icon-button.small {
+    width: $icon-small-container-size;
+    height: $icon-small-container-size;
+    line-height: $icon-small-container-size;
+
+    .mat-icon, .mat-icon-button i {
+    line-height: $icon-small-size;
+    }
+
+    .mat-icon {
+    width: $icon-small-size;
+    height: $icon-small-size;
+    padding: 1px 1px 15px 1px;
+    }
+
+    .material-icons {
+    font-size: $icon-small-size;
+    }
+}
+    
+
+

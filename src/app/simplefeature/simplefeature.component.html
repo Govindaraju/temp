@@ -1,3 +1,85 @@
-<p>
-  simplefeature works!
-</p>
+<section class="feature-section-class">
+
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+
+    <div fxLayout="column" fxLayoutAlign="start center" class="sidebar" fxFlex="40%" fxLayoutGap="10px">
+
+      <div fxLayout fxLayoutGap="10px" class="form-class">
+
+        <div class="sidebar-feature-class" fxFlex="85%">Features</div>
+        <button color="primary" mat-fab (click)="showAddFeature()">
+          <mat-icon>add</mat-icon>
+        </button>
+
+      </div>
+
+      <div fxLayout class="list-features-class">
+        <mat-nav-list>
+          <mat-list-item *ngFor="let feature of features">
+            {{feature}}
+            <mat-divider></mat-divider>
+          </mat-list-item>
+
+        </mat-nav-list>
+      </div>
+
+      <div fxLayout fxLayoutGap="10px" *ngIf="addFeatureVisible" class="form-class">
+        <mat-form-field fxFlex="85%">
+          <input matInput [(ngModel)]="featureText">
+          <span matPrefix>Feature : </span>
+        </mat-form-field>
+        <button color="primary" mat-fab (click)="addFeature()" [disabled]="doneDisabled()">
+          <mat-icon>done</mat-icon>
+        </button>
+      </div>
+
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="60%">
+
+      <div fxLayout fxLayoutGap="10px" class="feature">
+        <div class="prefixClass">Feature : </div>
+        <div fxFlex="60%">{{featureObject.description}}</div>
+        <div fxLayoutAlign="flex-end" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="saveFeature()">Save Feature</button>
+          <button mat-raised-button color="primary" (click)="enableScenarioSection()">Add Scenario</button>
+        </div>
+      </div>
+      <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="showScenarioSection">
+        <mat-form-field>
+          <span matPrefix>Scenario : </span>
+          <input autofocus matInput (keyup.enter)="addScenario()" [(ngModel)]="scenarioText">
+        </mat-form-field>
+      </div>
+      <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="showStepSection">
+        <mat-form-field>
+          <span matPrefix>Step : </span>
+          <input autofocus matInput (keyup.enter)="addStep()" [(ngModel)]="stepText">
+        </mat-form-field>
+      </div>
+      <div fxLayout="column" fxLayoutGap="2px" class="scenario" *ngFor="let scenario of allScenarios() | async  ; let i = index">
+        <div fxLayout fxLayoutGap="10px">
+          <a mat-icon-button class="small" color="primary"><mat-icon>edit</mat-icon></a>
+          <a mat-icon-button class="small" color="primary"><mat-icon>delete</mat-icon></a>
+          <div fxFlex="10%" class="prefixClass">
+            Scenario{{countOfScenarios()-i}} :
+          </div>
+          <div>{{scenario.description}}</div>
+         
+        </div>
+        <div fxLayout fxLayoutGap="10px" *ngFor="let step of scenario.steps; let j=index">
+          <div fxLayout fxLayoutGap="10px" class="step">
+            <a mat-icon-button class="small" color="primary"><mat-icon>edit</mat-icon></a>
+            <a mat-icon-button class="small" color="primary"><mat-icon>delete</mat-icon></a>
+            <a mat-icon-button class="small" color="primary"><mat-icon>grid_on</mat-icon></a>
+            <a mat-icon-button class="small" color="primary"><mat-icon>alternate_email</mat-icon></a>
+            <div fxFlex="5%" class="prefixClass">Step{{j+1}} : </div>
+            <div fxFlex="90%">{{step.description}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
