@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Feature } from '../feature/model/feature';
 import { Step } from '../feature/model/step';
 import { Util } from '../common/Util';
 import { Scenario } from '../feature/model/scenario';
 import { of, Observable } from 'rxjs';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 
 @Component({
   selector: 'app-simplefeature',
@@ -22,8 +24,8 @@ export class SimplefeatureComponent implements OnInit {
 
   featureObject: Feature;
   currentScenarioObject: Scenario;
-  
-  constructor() { }
+
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -130,7 +132,34 @@ export class SimplefeatureComponent implements OnInit {
     return this.featureObject.scenarios.length;
   }
 
-  allScenarios(): Observable<Scenario[]>{
+  allScenarios(): Observable<Scenario[]> {
     return of(this.featureObject.scenarios.reverse());
   }
+
+  modifyScenario(id) {
+    console.log('scenario id ',id);
+    let dialogRef = this.dialog.open(EditScenarioDialog, {
+      height: '300px',
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log('modified data',result);
+    });
+  }
+}
+
+@Component({
+  // selector: 'dialog-overview-example-dialog',
+  templateUrl: 'edit.scenario.html',
+})
+export class EditScenarioDialog {
+
+  constructor(public dialogRef: MatDialogRef<EditScenarioDialog>) { }
+
+  closeDialog() {
+    this.dialogRef.close('Square root');
+  }
+
 }

@@ -23,7 +23,8 @@ import { LayoutComponent } from './featureaccordian/layout/layout.component';
 import { ScenarioComponent } from './featureaccordian/scenario/scenario.component';
 import { StepComponent } from './featureaccordian/step/step.component';
 import { FeatureComponent } from './featureaccordian/feature/feature.component';
-import { SimplefeatureComponent } from './simplefeature/simplefeature.component';
+import { SimplefeatureComponent, EditScenarioDialog } from './simplefeature/simplefeature.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 
 
 @NgModule({
@@ -41,7 +42,11 @@ import { SimplefeatureComponent } from './simplefeature/simplefeature.component'
     LayoutComponent,
     ScenarioComponent,
     StepComponent,
-    SimplefeatureComponent
+    SimplefeatureComponent,
+    EditScenarioDialog
+  ],
+  entryComponents: [
+    EditScenarioDialog
   ],
   imports: [
     BrowserModule,
@@ -51,9 +56,10 @@ import { SimplefeatureComponent } from './simplefeature/simplefeature.component'
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    NgPipesModule
+    NgPipesModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
