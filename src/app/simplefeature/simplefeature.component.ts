@@ -1,10 +1,12 @@
+import { of, Observable } from 'rxjs';
 import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { EditScenarioDialog } from './dialogs/edit.scenario.dialog';
 import { Feature } from '../feature/model/feature';
 import { Step } from '../feature/model/step';
 import { Util } from '../common/Util';
 import { Scenario } from '../feature/model/scenario';
-import { of, Observable } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 @Component({
@@ -14,6 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class SimplefeatureComponent implements OnInit {
 
+  currentScenarioId: string;
   scenarioTextReadonly: boolean;
   scenarioText = "";
   featureText = "";
@@ -136,30 +139,42 @@ export class SimplefeatureComponent implements OnInit {
     return of(this.featureObject.scenarios.reverse());
   }
 
-  modifyScenario(id) {
-    console.log('scenario id ',id);
-    let dialogRef = this.dialog.open(EditScenarioDialog, {
-      height: '300px',
-      width: '600px',
-    });
+  // modifyScenario(id) {
+  //   console.log('scenario id ', id);
+  //   let dialogRef = this.dialog.open(EditScenarioDialog, {
+  //     height: '300px',
+  //     width: '600px',
+  //   });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('modified data',result);
-    });
-  }
-}
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     console.log('modified data', result);
+  //   });
+  // }
 
-@Component({
-  // selector: 'dialog-overview-example-dialog',
-  templateUrl: 'edit.scenario.html',
-})
-export class EditScenarioDialog {
-
-  constructor(public dialogRef: MatDialogRef<EditScenarioDialog>) { }
-
-  closeDialog() {
-    this.dialogRef.close('Square root');
+  updateScenario(id, $event){
+    console.log('sccenario edited ',id,' new value ',$event.target.value);
+    const scenario = this.filterScenario(id);
+    scenario.description = $event.target.value;
+    this.currentScenarioId = null;
   }
 
+  deleteScenario(id){
+    console.log('before ', this.featureObject.scenarios);
+    const index = this.featureObject.scenarios.indexOf(this.filterScenario(id));
+    this.featureObject.scenarios.splice(index,1);
+    console.log('after ', this.featureObject.scenarios);
+  }
+
+  isEditable(id){
+    return this.currentScenarioId == id;
+  }
+
+  enableEdit(id){
+    this.currentScenarioId = id;
+  }
+
+  filterScenario(id:string) {
+    return this.featureObject.scenarios.find(scenario => scenario.id === id);
+  }
 }
