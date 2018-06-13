@@ -1,8 +1,8 @@
 <section class="feature-section-class">
 
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2px">
 
-    <div fxLayout="column" fxLayoutAlign="start center" class="sidebar" fxFlex="40%" fxLayoutGap="10px">
+    <div fxLayout="column" fxLayoutAlign="start center" class="sidebar" fxFlex="30%" fxLayoutGap="10px">
 
       <div fxLayout fxLayoutGap="10px" class="form-class">
 
@@ -35,10 +35,10 @@
 
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="60%">
+    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="70%" fxLayoutGap="2px">
 
       <div fxLayout fxLayoutGap="10px" class="feature">
-        <div class="prefixClass">Feature : </div>
+        <div class="prefixClass">@Feature</div>
         <div fxFlex="60%">{{featureObject.description}}</div>
         <div fxLayoutAlign="flex-end" fxLayoutGap="10px">
           <button mat-raised-button color="primary" (click)="saveFeature()">Save Feature</button>
@@ -58,42 +58,51 @@
         </mat-form-field>
       </div>
       <div fxLayout="column" fxLayoutGap="2px" class="scenario" *ngFor="let scenario of allScenarios() | async  ; let i = index">
-        <div fxLayout fxLayoutGap="10px">
-          <a mat-icon-button class="small" color="primary" (click)="deleteScenario(scenario.id)">
-            <mat-icon>delete</mat-icon>
+
+        <div fxLayout>
+          <a routerLink="." (click)="deleteScenario(scenario.id)">
+            <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
           </a>
-          <div fxFlex="10%" class="prefixClass">
+          <div fxFlex="8%" class="prefixClass">
             Scenario{{countOfScenarios()-i}} :
           </div>
-
           <div *ngIf="!isEditable(scenario.id)" (click)="enableEdit(scenario.id)">{{scenario.description}}</div>
-
           <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="isEditable(scenario.id)">
-            <mat-form-field>
-              <span matPrefix>Scenario : </span>
-              <input autofocus matInput (keyup.enter)="updateScenario(scenario.id,$event)">
+            <mat-form-field fxFlex="90%">
+              <textarea matInput (keydown.tab)="updateScenario(scenario.id,$event)" (keydown.esc)="updateScenarioEsc()" (blur)="updateScenarioEsc()"
+                value={{scenario.description}}></textarea>
             </mat-form-field>
           </div>
 
         </div>
+
         <div fxLayout fxLayoutGap="10px" *ngFor="let step of scenario.steps; let j=index">
           <div fxLayout fxLayoutGap="10px" class="step">
-            <a mat-icon-button class="small" color="primary">
-              <mat-icon>edit</mat-icon>
+            <a routerLink="." [matMenuTriggerFor]="menu">
+              <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
             </a>
-            <a mat-icon-button class="small" color="primary">
-              <mat-icon>delete</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="stepEditOptions('Tag',scenario.id,step.id)">Tag</button>
+              <button mat-menu-item (click)="stepEditOptions('Data',scenario.id,step.id)">Data</button>
+              <button mat-menu-item (click)="stepEditOptions('SendReceive',scenario.id,step.id)">Send/Receive</button>
+              <button mat-menu-item (click)="stepEditOptions('Assert',scenario.id,step.id)">Assert</button>
+            </mat-menu>
+
+            <!-- <a mat-icon-button color="primary">
+              <mat-icon class="ic-size-16">delete</mat-icon>
             </a>
-            <a mat-icon-button class="small" color="primary">
-              <mat-icon>grid_on</mat-icon>
+            <a mat-icon-button color="primary">
+              <mat-icon class="ic-size-16">grid_on</mat-icon>
             </a>
-            <a mat-icon-button class="small" color="primary">
-              <mat-icon>alternate_email</mat-icon>
-            </a>
+            <a mat-icon-button color="primary">
+              <mat-icon class="ic-size-16">alternate_email</mat-icon>
+            </a> -->
             <div fxFlex="90%">{{step.description}}</div>
           </div>
         </div>
+
       </div>
+
     </div>
 
   </div>

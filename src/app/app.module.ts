@@ -26,6 +26,7 @@ import { FeatureComponent } from './featureaccordian/feature/feature.component';
 import { SimplefeatureComponent } from './simplefeature/simplefeature.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { EditScenarioDialog } from './simplefeature/dialogs/edit.scenario.dialog';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { EditScenarioDialog } from './simplefeature/dialogs/edit.scenario.dialog
     ScenarioComponent,
     StepComponent,
     SimplefeatureComponent,
-    EditScenarioDialog
+    EditScenarioDialog,
+    AutofocusDirective
   ],
   entryComponents: [
     EditScenarioDialog

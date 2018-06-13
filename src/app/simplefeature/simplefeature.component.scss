@@ -1,6 +1,9 @@
+
 .feature-section-class{
-    padding:1rem 1rem;
+    padding: 2px 2px;
     font-family: 'Roboto', sans-serif;
+    background-color: gainsboro;
+    font-size: 14px;
   }
 
 .feature-class{
@@ -13,7 +16,7 @@
   }
 
 .sidebar{
-    background-color:seashell;
+    background-color:white;
     min-height: 800px;
 }
 
@@ -25,8 +28,7 @@
 .sidebar-feature-class{
     padding: 15px 15px;
     text-align: center;
-    background-color: lightskyblue;
-    color: white;
+    background-color: rgb(241, 237, 237);
 }
 
 .list-features-class{
@@ -43,25 +45,26 @@ input:-webkit-autofill {
 }
 
 .feature{
-    background-color: lightgray;
+    background-color: rgb(241, 237, 237);
     padding:1rem 1rem;
     width: 100%;  
 }
 
 .scenario{
-    background-color: lavender;
-    padding:1rem 1rem;
+    background-color:white;
+    padding:10px 10px 10px 10px;
     width: 100%;  
 }
 
 .step{
-    background-color: honeydew;
+    background-color: rgb(241, 237, 237);
     padding:1rem 1rem;
     width: 100%;  
 }
 
 mat-form-field {
     width: 100%;
+    padding:0px 0px 0px 0px;
     //font-size: 16px;
 }
 
@@ -70,11 +73,9 @@ span[matPrefix]{
     color: lightgrey
   }
 .prefixClass{
-    //margin:2px 2px,2px,15px;
-    padding: 1px 1px 4px 1px;
-    color: white;
-    font-size: 14px;
+    padding: 0px 0 0px 5px;
     color: red;
+    font-size: 14px;
 }
 
 .word-wrap{
@@ -92,28 +93,18 @@ span[matPrefix]{
     word-break: break-word;
     
     }
-    $icon-small-container-size: 32px;
-    $icon-small-size: 16px;
-    
-.mat-icon-button.small {
-    width: $icon-small-container-size;
-    height: $icon-small-container-size;
-    line-height: $icon-small-container-size;
 
-    .mat-icon, .mat-icon-button i {
-    line-height: $icon-small-size;
-    }
-
-    .mat-icon {
-    width: $icon-small-size;
-    height: $icon-small-size;
-    padding: 1px 1px 15px 1px;
-    }
-
-    .material-icons {
-    font-size: $icon-small-size;
-    }
+@mixin md-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+    line-height: $size;
+  }
+.ic-size-16 {
+    @include md-icon-size(16px);
+    padding: 2px 2px 5px 2px;
 }
+
 
 
 

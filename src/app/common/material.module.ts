@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatMenuModule} from '@angular/material/menu';
 import {
   MatButtonModule,
   MatIconModule,
@@ -46,7 +47,8 @@ import {
     MatPaginatorModule,
     MatGridListModule,
     MatTreeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -69,7 +71,8 @@ import {
     MatPaginatorModule,
     MatGridListModule,
     MatTreeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ]
   
 })

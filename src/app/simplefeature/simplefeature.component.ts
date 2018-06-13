@@ -7,6 +7,7 @@ import { Feature } from '../feature/model/feature';
 import { Step } from '../feature/model/step';
 import { Util } from '../common/Util';
 import { Scenario } from '../feature/model/scenario';
+import { delay } from 'rxjs/operators';
 
 
 @Component({
@@ -139,42 +140,50 @@ export class SimplefeatureComponent implements OnInit {
     return of(this.featureObject.scenarios.reverse());
   }
 
-  // modifyScenario(id) {
-  //   console.log('scenario id ', id);
-  //   let dialogRef = this.dialog.open(EditScenarioDialog, {
-  //     height: '300px',
-  //     width: '600px',
-  //   });
+  modifyStep(scenarioId, stepId) {
+  }
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     console.log('modified data', result);
-  //   });
-  // }
-
-  updateScenario(id, $event){
-    console.log('sccenario edited ',id,' new value ',$event.target.value);
+  updateScenario(id, $event) {
     const scenario = this.filterScenario(id);
     scenario.description = $event.target.value;
     this.currentScenarioId = null;
   }
 
-  deleteScenario(id){
-    console.log('before ', this.featureObject.scenarios);
-    const index = this.featureObject.scenarios.indexOf(this.filterScenario(id));
-    this.featureObject.scenarios.splice(index,1);
-    console.log('after ', this.featureObject.scenarios);
+  updateScenarioEsc() {
+    this.currentScenarioId = null;
   }
 
-  isEditable(id){
+  deleteScenario(id) {
+    const index = this.featureObject.scenarios.indexOf(this.filterScenario(id));
+    this.featureObject.scenarios.splice(index, 1);
+  }
+
+  isEditable(id) {
     return this.currentScenarioId == id;
   }
 
-  enableEdit(id){
+  enableEdit(id) {
     this.currentScenarioId = id;
   }
 
-  filterScenario(id:string) {
+  filterScenario(id: string) {
     return this.featureObject.scenarios.find(scenario => scenario.id === id);
+  }
+
+  stepEditOptions(menu,scenarioId, stepId) {
+    console.log('menu ',menu,' scenario id ',scenarioId,' step id',stepId);
+  }
+
+  temp(){
+    let dialogRef = this.dialog.open(EditScenarioDialog, {
+      height: '800px',
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log('modified data', result);
+    });
+
   }
 }
