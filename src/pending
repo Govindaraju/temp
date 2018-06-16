@@ -1,1 +1,4 @@
 auto focus on step and scenario not working
+
+link to disable menu border
+https://github.com/angular/material2/issues/9292

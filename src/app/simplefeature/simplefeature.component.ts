@@ -1,13 +1,14 @@
 import { of, Observable } from 'rxjs';
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 
-import { EditScenarioDialog } from './dialogs/edit.scenario.dialog';
-import { Feature } from '../feature/model/feature';
-import { Step } from '../feature/model/step';
 import { Util } from '../common/Util';
-import { Scenario } from '../feature/model/scenario';
 import { delay } from 'rxjs/operators';
+import { Step } from '../feature/model/step';
+import { Feature } from '../feature/model/feature';
+import { Scenario } from '../feature/model/scenario';
+import { EditStepTagDialog } from './dialogs/tag/edit.step.tag.dialog';
+import { EditStepReceiveDialog } from './dialogs/receive/edit.step.receive.dialog';
 
 
 @Component({
@@ -166,24 +167,50 @@ export class SimplefeatureComponent implements OnInit {
     this.currentScenarioId = id;
   }
 
-  filterScenario(id: string) {
-    return this.featureObject.scenarios.find(scenario => scenario.id === id);
+  filterScenario(scenarioId) {
+    return this.featureObject.scenarios.find(scenario => scenario.id === scenarioId);
   }
 
-  stepEditOptions(menu,scenarioId, stepId) {
-    console.log('menu ',menu,' scenario id ',scenarioId,' step id',stepId);
+  filterStep(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    return scenario.steps.find(step => step.id === stepId);
   }
 
-  temp(){
-    let dialogRef = this.dialog.open(EditScenarioDialog, {
-      height: '800px',
-      width: '800px',
-    });
+  stepEditTag(scenarioId, stepId) {
+    const step = this.filterStep(scenarioId, stepId);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('modified data', result);
-    });
+    dialogConfig.data = {
+      selectedTag: `${step.tag}`
+    };
+    let dialogRef = this.dialog.open(EditStepTagDialog, dialogConfig);
 
+    dialogRef.afterClosed().subscribe(
+      data => { step.tag = data; }
+    );
   }
+
+  stepEditReceive(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    const step = this.filterStep(scenarioId, stepId);
+
+    const dialogConfig = new MatDialogConfig();
+    //dialogConfig.disableClose = true;
+    //dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      scenarioText: `${scenario.description}`,
+      stepText: `${step.description}`,
+      selectedTag: `${step.tag}`
+    };
+
+    let dialogRef = this.dialog.open(EditStepReceiveDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => { step.tag = data; }
+    );
+  }
+
 }

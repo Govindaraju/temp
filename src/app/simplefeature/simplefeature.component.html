@@ -38,11 +38,18 @@
     <div fxLayout="column" fxLayoutAlign="start center" fxFlex="70%" fxLayoutGap="2px">
 
       <div fxLayout fxLayoutGap="10px" class="feature">
-        <div class="prefixClass">@Feature</div>
-        <div fxFlex="60%">{{featureObject.description}}</div>
-        <div fxLayoutAlign="flex-end" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="saveFeature()">Save Feature</button>
-          <button mat-raised-button color="primary" (click)="enableScenarioSection()">Add Scenario</button>
+        <div class="prefixClass">@Feature : </div>
+        <div >{{featureObject.description}}</div>
+
+        <div fxFlex fxLayout fxLayoutAlign="flex-end">
+          <ul fxLayout fxLayoutGap="5px" class="navigation-items">
+            <li>
+              <button mat-raised-button color="primary" (click)="saveFeature()">Save Feature</button>
+            </li>
+            <li>
+              <button mat-raised-button color="primary" (click)="enableScenarioSection()">Add Scenario</button>
+            </li>
+          </ul>
         </div>
       </div>
       <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="showScenarioSection">
@@ -59,11 +66,11 @@
       </div>
       <div fxLayout="column" fxLayoutGap="2px" class="scenario" *ngFor="let scenario of allScenarios() | async  ; let i = index">
 
-        <div fxLayout>
+        <div fxLayout fxLayoutGap="10px">
           <a routerLink="." (click)="deleteScenario(scenario.id)">
             <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
           </a>
-          <div fxFlex="8%" class="prefixClass">
+          <div fxFlex="7%" class="prefixClass">
             Scenario{{countOfScenarios()-i}} :
           </div>
           <div *ngIf="!isEditable(scenario.id)" (click)="enableEdit(scenario.id)">{{scenario.description}}</div>
@@ -82,21 +89,10 @@
               <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
             </a>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="stepEditOptions('Tag',scenario.id,step.id)">Tag</button>
-              <button mat-menu-item (click)="stepEditOptions('Data',scenario.id,step.id)">Data</button>
-              <button mat-menu-item (click)="stepEditOptions('SendReceive',scenario.id,step.id)">Send/Receive</button>
-              <button mat-menu-item (click)="stepEditOptions('Assert',scenario.id,step.id)">Assert</button>
+              <button mat-menu-item (click)="stepEditTag(scenario.id,step.id)">Tag</button>
+              <button mat-menu-item>Send</button>
+              <button mat-menu-item (click)="stepEditReceive(scenario.id,step.id)">Receive</button>
             </mat-menu>
-
-            <!-- <a mat-icon-button color="primary">
-              <mat-icon class="ic-size-16">delete</mat-icon>
-            </a>
-            <a mat-icon-button color="primary">
-              <mat-icon class="ic-size-16">grid_on</mat-icon>
-            </a>
-            <a mat-icon-button color="primary">
-              <mat-icon class="ic-size-16">alternate_email</mat-icon>
-            </a> -->
             <div fxFlex="90%">{{step.description}}</div>
           </div>
         </div>

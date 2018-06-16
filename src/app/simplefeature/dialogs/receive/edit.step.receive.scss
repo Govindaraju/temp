@@ -1,0 +1,68 @@
+@mixin md-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+    line-height: $size;
+  }
+.ic-size-16 {
+    @include md-icon-size(16px);
+    padding: 2px 2px 5px 2px;
+}
+
+.ic-size-18 {
+    @include md-icon-size(18px);
+    padding: 2px 2px 5px 2px;
+}
+
+.tagSelection{
+    width: 100%;
+    min-width: 400px;
+    min-height: 100px;
+    padding-bottom: 10px;
+    background-color: rgb(63, 81, 181);
+    color: white;
+}
+
+.font-18{
+    font-size: 18px;
+}
+
+.font-14{
+    font-size: 14px;
+}
+
+.alignCenter {
+    text-align: center;
+   
+}
+
+.alignLeft {
+    text-align: left;
+    margin-left: 5px;
+}
+
+.button-wh-80-40{
+    width: 80px;
+    height: 40px;   
+}
+
+mat-form-field {
+    min-width: 400px;
+    width: 100%;
+    padding:0px 0px 0px 0px;
+}
+
+mat-hint{
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    min-width: 700px;
+    min-height: 400px;
+}
+
+.table-class{
+    width: 900px;
+    padding:1rem 1rem;
+}

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+
 import {
   MatButtonModule,
   MatIconModule,
@@ -48,7 +51,9 @@ import {
     MatGridListModule,
     MatTreeModule,
     MatExpansionModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatChipsModule
   ],
   exports: [
     MatButtonModule,
@@ -72,7 +77,9 @@ import {
     MatGridListModule,
     MatTreeModule,
     MatExpansionModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatChipsModule
   ]
   
 })

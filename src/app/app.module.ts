@@ -25,8 +25,9 @@ import { StepComponent } from './featureaccordian/step/step.component';
 import { FeatureComponent } from './featureaccordian/feature/feature.component';
 import { SimplefeatureComponent } from './simplefeature/simplefeature.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
-import { EditScenarioDialog } from './simplefeature/dialogs/edit.scenario.dialog';
+import { EditStepTagDialog } from './simplefeature/dialogs/tag/edit.step.tag.dialog';
 import { AutofocusDirective } from './autofocus.directive';
+import { EditStepReceiveDialog } from './simplefeature/dialogs/receive/edit.step.receive.dialog';
 
 
 @NgModule({
@@ -45,11 +46,13 @@ import { AutofocusDirective } from './autofocus.directive';
     ScenarioComponent,
     StepComponent,
     SimplefeatureComponent,
-    EditScenarioDialog,
+    EditStepTagDialog,
+    EditStepReceiveDialog,
     AutofocusDirective
   ],
   entryComponents: [
-    EditScenarioDialog
+    EditStepTagDialog,
+    EditStepReceiveDialog
   ],
   imports: [
     BrowserModule,

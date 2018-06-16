@@ -1,0 +1,42 @@
+<section class="edit-dialog-body">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="tagSelection">Assign Tag</div>
+        <div fxLayout fxLayoutGap="10px">
+            <mat-form-field>
+                <input matInput [matAutocomplete]="auto" [formControl]="tagCtrl">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let tag of filteredTags | async" value={{tag}}>
+                        {{tag}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <button mat-icon-button (click)="clearSelection()" *ngIf="clearButtonVisible()">
+                <mat-icon class="ic-size-16" color="primary">clear</mat-icon>
+            </button>
+        </div> 
+        <div fxLayout fxLayoutGap="2px">
+            <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="done()">Done</button>
+        </div>
+
+    </div>
+</section>
+
+<!-- <h2 mat-dialog-title>Assign a tag</h2>
+
+<mat-dialog-content>
+
+    <mat-form-field>
+        <input matInput [matAutocomplete]="auto" [formControl]="tagCtrl">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let tag of filteredTags | async" value={{tag}}>
+                {{tag}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="done()">Save</button>
+</mat-dialog-actions> -->
