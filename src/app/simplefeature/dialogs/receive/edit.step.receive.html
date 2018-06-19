@@ -8,58 +8,65 @@
 
         <div fxLayout fxLayoutGap="10px" fxLayoutAlign="center">
             <mat-chip-list>
-                <mat-chip [selected]="isCurrentSection('destination')" (click)="showSection('destination')">Message destination</mat-chip>
-                <mat-chip [selected]="isCurrentSection('addNewAssert')" (click)="showSection('addNewAssert')">Add new assert condtion</mat-chip>
-                <mat-chip [selected]="isCurrentSection('viewAsserts')" (click)="showSection('viewAsserts')">View modify assert condtions</mat-chip>
+                <mat-chip [selected]="isCurrentSection('destination')" (click)="showSection('destination')">Message Destination</mat-chip>
+                <mat-chip [selected]="isCurrentSection('addNewAssert')" (click)="showSection('addNewAssert')">{{assertCaption}}</mat-chip>
+                <mat-chip [selected]="isCurrentSection('viewAsserts')" (click)="showSection('viewAsserts')">View Assert</mat-chip>
             </mat-chip-list>
         </div>
 
-        <div fxLayout fxLayoutGap="10px" *ngIf="isCurrentSection('destination')">
-            <mat-form-field>
-                <input matInput [(ngModel)]="messageDestination">
-                <!-- <span matPrefix>Destination Queue : </span> -->
-                <mat-hint>Enter destination queue name</mat-hint>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [(ngModel)]="messageFilter">
-                <!-- <span matPrefix>Message Filter : </span> -->
-                <mat-hint>Enter message filter</mat-hint>
-            </mat-form-field>
-            <button color="primary" mat-fab (click)="saveDestination()">
-                <mat-icon>save</mat-icon>
-            </button>
-
-        </div>
-
-        <div fxLayout="column" fxLayoutGap="10px" *ngIf="isCurrentSection('addNewAssert')">
-            <mat-form-field>
-                <textarea matInput [(ngModel)]="xpath"></textarea>
-                <!-- <span matPrefix>Destination Queue : </span> -->
-                <mat-hint>Enter xpath for actuval value</mat-hint>
-            </mat-form-field>
-            <div fxLayout fxLayoutGap="10px">
+        <div *ngIf="isCurrentSection('destination')">
+            <form fxLayoutGap="10px" [formGroup]="messageDestinationForm" fxLayoutAlign="center" (ngSubmit)="saveDestination()">
                 <mat-form-field>
-                    <mat-select [(ngModel)]="condition">
-                        <mat-option *ngFor="let operator of operators" [value]="operator">
-                            {{ operator }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Comparison operator</mat-hint>
+                    <input matInput formControlName="destination">
+                    <mat-hint>Enter destination queue name</mat-hint>
+                    <mat-error>Please enter destination</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [(ngModel)]="expectedValue">
-                    <!-- <span matPrefix>Message Filter : </span> -->
-                    <mat-hint>Expected value</mat-hint>
+                    <input matInput formControlName="filter">
+                    <mat-hint>Enter message filter</mat-hint>
+                    <mat-error>Please enter filter</mat-error>
                 </mat-form-field>
-                <button color="primary" mat-fab (click)="saveAssert()">
+                <button type="submit" color="primary" mat-fab [disabled]="messageDestinationForm.pristine">
                     <mat-icon>save</mat-icon>
                 </button>
-            </div>
+            </form>
+        </div>
+
+        <div *ngIf="isCurrentSection('addNewAssert')">
+            <form fxLayout="column" fxLayoutGap="10px" [formGroup]="assetForm" fxLayoutAlign="center" (ngSubmit)="saveDestination()">
+                <mat-form-field>
+                    <textarea matInput formControlName="xpath"></textarea>
+                    <mat-hint>Enter xpath for actuval value</mat-hint>
+                    <mat-error>Please enter xpath value</mat-error>
+                </mat-form-field>
+                <div fxLayout fxLayoutGap="10px">
+                    <mat-form-field>
+                        <mat-select formControlName="condition">
+                            <mat-option *ngFor="let operator of operators" [value]="operator">
+                                {{ operator }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>Comparison operator</mat-hint>
+                        <mat-error>Please select operator</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput formControlName="expectedValue">
+                        <mat-hint>Expected value</mat-hint>
+                        <mat-error>Please enter expected value</mat-error>
+                    </mat-form-field>
+                    <button color="primary" type="submit" mat-fab (click)="saveAssert()" *ngIf="isVisible('add')" [disabled]="assetForm.pristine">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <button color="primary" type="submit" mat-fab (click)="updateAssert()" *ngIf="isVisible('update')" [disabled]="assetForm.pristine">
+                        <mat-icon>update</mat-icon>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <div *ngIf="isCurrentSection('viewAsserts')" class="table-class">
 
-            <table mat-table [dataSource]="receiveMessage.asserts" class="mat-elevation-z8">
+            <table fxFlex="100%" mat-table [dataSource]="receiveMessage.asserts" class="mat-elevation-z8">
                 <ng-container matColumnDef="Xpath">
                     <th mat-header-cell *matHeaderCellDef> Xpath </th>
                     <td mat-cell *matCellDef="let element"> {{element.xpath}} </td>
@@ -78,8 +85,11 @@
                 <ng-container matColumnDef="Action">
                     <th mat-header-cell *matHeaderCellDef> Action </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-button (click)="deleteAssert(assert.id)">
+                        <button mat-button (click)="deleteAssert(element.id)">
                             <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
+                        </button>
+                        <button mat-button (click)="modifyAssert(element.id)">
+                            <mat-icon class="ic-size-16" color="primary">edit</mat-icon>
                         </button>
                     </td>
                 </ng-container>
@@ -87,46 +97,11 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
-            <!-- <table class="mat-table mat-elevation-z8">
-                <thead>
-                    <tr class="mat-header-row">
-                        <th class="mat-header-cell"> Xpath</th>
-                        <th class="mat-header-cell"> Condition </th>
-                        <th class="mat-header-cell"> Value </th>
-                        <th class="mat-header-cell"> Action </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="mat-row" *ngFor="let assert of receiveMessage.asserts">
-                        <td class="mat-cell"> {{assert.xpath}} </td>
-                        <td class="mat-cell"> {{assert.condition}} </td>
-                        <td class="mat-cell"> {{assert.value}} </td>
-                        <td class="mat-cell">
-                            <a routerLink="." (click)="deleteAssert(assert.id)">
-                                <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
-
-            <!-- <div fxLayout fxLayoutGap="10px" *ngFor="let assert of receiveMessage.asserts">
-                <div fxLayout fxLayoutGap="20px">
-                    <a routerLink="." (click)="deleteAssert(assert.id)">
-                        <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
-                    </a>
-                    <div>{{assert.xpath}}</div>
-                    <div>{{assert.condition}}</div>
-                    <div>{{assert.value}}</div>
-                </div>
-            </div> -->
-
         </div>
 
         <div fxLayout fxLayoutGap="5px" fxLayoutAlign="center">
-            <button mat-raised-button color="primary" (click)="close()">Cancel</button>
             <button mat-raised-button color="primary" (click)="done()">Done</button>
+            <button mat-raised-button color="primary" (click)="close()">Cancel</button>
         </div>
     </div>
 </section>
