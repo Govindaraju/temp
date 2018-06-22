@@ -18,199 +18,125 @@ import { EditStepReceiveDialog } from './dialogs/receive/edit.step.receive.dialo
 })
 export class SimplefeatureComponent implements OnInit {
 
-  currentScenarioId: string;
-  scenarioTextReadonly: boolean;
-  scenarioText = "";
-  featureText = "";
-  stepText = "";
-  addFeatureVisible = false;
-  showScenarioSection = false;
-  showStepSection = false;
+  features: Feature[] = [];
+  currentFeature: Feature;
+  currentScenario = new Scenario();
 
-  featureObject: Feature;
-  currentScenarioObject: Scenario;
+  featureText: string;
+  scenarioText: string;
+  stepText: string;
 
-  constructor(public dialog: MatDialog) { }
+  addFeatureVisible = true;
+  addFeatureButtonEnabled = false;
+  showScenarioInputField = false;
+  showAddScenarioButton = false;
+
+  // constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
+  }
 
-    this.featureObject = new Feature();
-    this.featureObject.id = Util.key();
-    this.featureObject.description = "Calculator";
+  addFeature() {
+    const feature = new Feature();
+    feature.id = Util.key();
+    feature.description = this.featureText;
+    this.features.push(feature);
 
-    const scenario1 = new Scenario();
-    scenario1.id = Util.key();
-    scenario1.description = "Add two numbers";
+    this.featureText = null;
+    this.featureSelected(feature.id)
+  }
 
-    const step11 = new Step();
-    step11.id = Util.key();
-    step11.description = "Given an instance of calculator";
+  deleteFeature(featureId) {
+    const index = this.features.indexOf(this.filterFeature(featureId));
+    this.features.splice(index, 1);
+    if (featureId === this.currentFeature.id) {
+      this.currentFeature = null;
+    }
+  }
 
-    const step12 = new Step();
-    step12.id = Util.key();
-    step12.description = "When two numbers 10 and 25 are passed";
-
-
-    const step13 = new Step();
-    step13.id = Util.key();
-    step13.description = "And addNumbers method is called";
-
-
-    const step14 = new Step();
-    step14.id = Util.key();
-    step14.description = "Then it should return the sum of 35";
-
-    const scenario2 = new Scenario();
-    scenario2.id = Util.key();
-    scenario2.description = "Multiply two numbers";
-
-    const step21 = new Step();
-    step21.id = Util.key();
-    step21.description = "Given an instance of calculator";
-
-    const step22 = new Step();
-    step22.id = Util.key();
-    step22.description = "When two numbers 10 and 25 are passed";
-
-    const step23 = new Step();
-    step23.id = Util.key();
-    step23.description = "And multiplyNumbers is called";
-
-    const step24 = new Step();
-    step24.id = Util.key();
-    step24.description = "Then it should return a product of 250";
-
-    scenario1.steps.push(step11);
-    scenario1.steps.push(step12);
-    scenario1.steps.push(step13);
-    scenario1.steps.push(step14);
-
-    scenario2.steps.push(step21);
-    scenario2.steps.push(step22);
-    scenario2.steps.push(step23);
-    scenario2.steps.push(step24);
-
-    this.featureObject.scenarios.push(scenario1);
-    this.featureObject.scenarios.push(scenario2);
-
+  cancelAddFeature() {
+    this.featureText = null;
+    this.addFeatureVisible = false;
+    this.addFeatureButtonEnabled = true;
   }
 
   showAddFeature() {
     this.addFeatureVisible = true;
+    this.addFeatureButtonEnabled = false;
   }
 
-  addFeature() {
-    // this.features.push(this.featureText);
-    // this.featureText = "";
-    // this.addFeatureVisible = false;
-    // this.showScenarioSection = true;
+  currentFeatureDescription() {
+    if (this.currentFeature != null) {
+      return this.currentFeature.description;
+    }
+    return "";
   }
 
-  doneDisabled() {
-    return this.featureText.length == 0;
+  isCurrentFeatureValid() {
+    return this.currentFeature != null;
   }
 
-  enableScenarioSection() {
-    this.showStepSection = false;
-    this.showScenarioSection = true;
+  featureSelected(featureId) {
+    this.currentFeature = this.filterFeature(featureId);
+    this.showAddScenario();
+  }
+
+  enableAddStepForScenario(scenarioId) {
+    this.currentScenario = this.filterScenario(scenarioId);
+  }
+
+  showAddScenario() {
+    this.showScenarioInputField = true;
+    this.showAddScenarioButton = false;
+  }
+
+  hideAddScenario() {
+    this.scenarioText = null;
+    this.showScenarioInputField = false;
+    this.showAddScenarioButton = true;
+  }
+
+  isStepInputFieldVisible(scenarioId) {
+    return this.currentScenario !== null && this.currentScenario.id == scenarioId;
+  }
+
+  filterFeature(featureId) {
+    return this.features.find(feature => feature.id === featureId);
   }
 
   addScenario() {
-    this.currentScenarioObject = new Scenario();
-    this.currentScenarioObject.id = Util.key();
-    this.currentScenarioObject.description = this.scenarioText;
-    this.featureObject.scenarios.push(this.currentScenarioObject);
-    this.showScenarioSection = false;
-    this.showStepSection = true;
-    this.scenarioText = "";
+    const scenario = new Scenario();
+    scenario.id = Util.key();
+    scenario.description = this.scenarioText;
+    this.currentFeature.scenarios.push(scenario);
+    this.hideAddScenario();
+    this.enableAddStepForScenario(scenario.id); scenario
   }
 
-  addStep() {
-    const step = new Step();
-    step.id = Util.key();
-    step.description = this.stepText;
-    this.currentScenarioObject.steps.push(step);
-    this.stepText = "";
+  deleteScenario(scenarioId) {
+    const index = this.currentFeature.scenarios.indexOf(this.filterScenario(scenarioId));
+    this.currentFeature.scenarios.splice(index, 1);
   }
 
-  countOfScenarios() {
-    return this.featureObject.scenarios.length;
-  }
-
-  allScenarios(): Observable<Scenario[]> {
-    return of(this.featureObject.scenarios.reverse());
-  }
-
-  modifyStep(scenarioId, stepId) {
-  }
-
-  updateScenario(id, $event) {
-    const scenario = this.filterScenario(id);
-    scenario.description = $event.target.value;
-    this.currentScenarioId = null;
-  }
-
-  updateScenarioEsc() {
-    this.currentScenarioId = null;
-  }
-
-  deleteScenario(id) {
-    const index = this.featureObject.scenarios.indexOf(this.filterScenario(id));
-    this.featureObject.scenarios.splice(index, 1);
-  }
-
-  isEditable(id) {
-    return this.currentScenarioId == id;
-  }
-
-  enableEdit(id) {
-    this.currentScenarioId = id;
+  cancelAddScenario() {
+    this.hideAddScenario();
   }
 
   filterScenario(scenarioId) {
-    return this.featureObject.scenarios.find(scenario => scenario.id === scenarioId);
+    return this.currentFeature.scenarios.find(scenario => scenario.id === scenarioId);
   }
 
-  filterStep(scenarioId, stepId) {
+  addStep(scenarioId) {
+    const step = new Step();
+    step.id = Util.key();
+    step.description = this.stepText;
     const scenario = this.filterScenario(scenarioId);
-    return scenario.steps.find(step => step.id === stepId);
+    scenario.steps.push(step);
+    this.stepText = null;
   }
 
-  stepEditTag(scenarioId, stepId) {
-    const step = this.filterStep(scenarioId, stepId);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    dialogConfig.data = {
-      selectedTag: `${step.tag}`
-    };
-    let dialogRef = this.dialog.open(EditStepTagDialog, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(
-      data => { step.tag = data; }
-    );
-  }
-
-  stepEditReceive(scenarioId, stepId) {
-    const scenario = this.filterScenario(scenarioId);
-    const step = this.filterStep(scenarioId, stepId);
-
-    const dialogConfig = new MatDialogConfig();
-    //dialogConfig.disableClose = true;
-    //dialogConfig.autoFocus = true;
-
-    dialogConfig.data = {
-      scenarioText: `${scenario.description}`,
-      stepText: `${step.description}`,
-      selectedTag: `${step.tag}`
-    };
-
-    let dialogRef = this.dialog.open(EditStepReceiveDialog, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(
-      data => { step.tag = data; }
-    );
+  cancelAddStep() {
+    this.currentScenario = null;
   }
 
 }

@@ -1,106 +1,97 @@
-<section class="feature-section-class">
+<div class="feature-main">
 
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2px">
+  <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2px">
 
-    <div fxLayout="column" fxLayoutAlign="start center" class="sidebar" fxFlex="30%" fxLayoutGap="10px">
+    <div id="leftPart" fxLayout="column" fxLayoutAlign="start center" fxFlex="30%" class="frame">
 
-      <div fxLayout fxLayoutGap="10px" class="form-class">
-
-        <div class="sidebar-feature-class" fxFlex="85%">Features</div>
-        <button color="primary" mat-fab (click)="showAddFeature()">
-          <mat-icon>add</mat-icon>
-        </button>
-
+      <div fxLayout="column" fxLayoutGap="5px" class="feature">
+        <div class="feature-label">Features</div>
+        <div *ngIf="features.length > 0">
+          <mat-nav-list>
+            <mat-list-item *ngFor="let feature of features" (click)="featureSelected(feature.id)">
+              <h3 matLine> {{feature.description}} </h3>
+              <button mat-icon-button (click)="deleteFeature(feature.id)">
+                <mat-icon color="primary" matListAvatar>delete</mat-icon>
+              </button>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+        <div class="features-input" fxLayout *ngIf="addFeatureVisible">
+          <mat-form-field fxFlex="95%">
+            <span matPrefix>Feature : </span>
+            <input autofocus matInput [(ngModel)]="featureText" (keyup.enter)="addFeature()">
+          </mat-form-field>
+          <button fxFlex="5%" mat-icon-button (click)="cancelAddFeature()">
+            <mat-icon color="primary">not_interested</mat-icon>
+          </button>
+        </div>
+        <div fxLayout fxLayoutAlign="center" *ngIf="addFeatureButtonEnabled">
+          <button fxFlex="99%" mat-raised-button (click)="showAddFeature()">Add Feature</button>
+        </div>
       </div>
-
-      <div fxLayout class="list-features-class">
-        <mat-nav-list>
-          <mat-list-item *ngFor="let feature of features">
-            {{feature}}
-            <mat-divider></mat-divider>
-          </mat-list-item>
-
-        </mat-nav-list>
-      </div>
-
-      <div fxLayout fxLayoutGap="10px" *ngIf="addFeatureVisible" class="form-class">
-        <mat-form-field fxFlex="85%">
-          <input matInput [(ngModel)]="featureText">
-          <span matPrefix>Feature : </span>
-        </mat-form-field>
-        <button color="primary" mat-fab (click)="addFeature()" [disabled]="doneDisabled()">
-          <mat-icon>done</mat-icon>
-        </button>
-      </div>
-
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="70%" fxLayoutGap="2px">
+    <div id="rightPart" fxLayout="column" fxLayoutAlign="start center" fxFlex="70%" class="frame">
+      <div fxLayout="column" fxLayoutGap="5px" class="feature" *ngIf="isCurrentFeatureValid()">
 
-      <div fxLayout fxLayoutGap="10px" class="feature">
-        <div class="prefixClass">@Feature : </div>
-        <div >{{featureObject.description}}</div>
-
-        <div fxFlex fxLayout fxLayoutAlign="flex-end">
-          <ul fxLayout fxLayoutGap="5px" class="navigation-items">
-            <li>
-              <button mat-raised-button color="primary" (click)="saveFeature()">Save Feature</button>
-            </li>
-            <li>
-              <button mat-raised-button color="primary" (click)="enableScenarioSection()">Add Scenario</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="showScenarioSection">
-        <mat-form-field>
-          <span matPrefix>Scenario : </span>
-          <input autofocus matInput (keyup.enter)="addScenario()" [(ngModel)]="scenarioText">
-        </mat-form-field>
-      </div>
-      <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="showStepSection">
-        <mat-form-field>
-          <span matPrefix>Step : </span>
-          <input autofocus matInput (keyup.enter)="addStep()" [(ngModel)]="stepText">
-        </mat-form-field>
-      </div>
-      <div fxLayout="column" fxLayoutGap="2px" class="scenario" *ngFor="let scenario of allScenarios() | async  ; let i = index">
-
-        <div fxLayout fxLayoutGap="10px">
-          <a routerLink="." (click)="deleteScenario(scenario.id)">
-            <mat-icon class="ic-size-16" color="primary">delete</mat-icon>
-          </a>
-          <div fxFlex="7%" class="prefixClass">
-            Scenario{{countOfScenarios()-i}} :
-          </div>
-          <div *ngIf="!isEditable(scenario.id)" (click)="enableEdit(scenario.id)">{{scenario.description}}</div>
-          <div fxLayout class="scenario" fxLayoutGap="10px" *ngIf="isEditable(scenario.id)">
-            <mat-form-field fxFlex="90%">
-              <textarea matInput (keydown.tab)="updateScenario(scenario.id,$event)" (keydown.esc)="updateScenarioEsc()" (blur)="updateScenarioEsc()"
-                value={{scenario.description}}></textarea>
-            </mat-form-field>
-          </div>
-
+        <div class="feature-label">
+          Feature - {{currentFeatureDescription()}}
         </div>
 
-        <div fxLayout fxLayoutGap="10px" *ngFor="let step of scenario.steps; let j=index">
-          <div fxLayout fxLayoutGap="10px" class="step">
+        <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let scenario of currentFeature.scenarios">
+          <div fxLayout fxLayoutGap="10px" class="scenario-label">
             <a routerLink="." [matMenuTriggerFor]="menu">
               <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
             </a>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="stepEditTag(scenario.id,step.id)">Tag</button>
-              <button mat-menu-item>Send</button>
-              <button mat-menu-item (click)="stepEditReceive(scenario.id,step.id)">Receive</button>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+              <button mat-menu-item (click)="editScenario(scenario.id)">Edit</button>
+              <button mat-menu-item (click)="deleteScenario(scenario.id)">Delete</button>
+              <button mat-menu-item (click)="enableAddStepForScenario(scenario.id)">Add step</button>
             </mat-menu>
-            <div fxFlex="90%">{{step.description}}</div>
+            <div fxFlex="90%">{{scenario.description}}</div>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let step of scenario.steps">
+            <div fxLayout fxLayoutGap="10px" class="step-label">
+              <a routerLink="." [matMenuTriggerFor]="menu">
+                <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
+              </a>
+              <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="stepEditTag(scenario.id,step.id)">Tag</button>
+                <button mat-menu-item>Send</button>
+                <button mat-menu-item (click)="stepEditReceive(scenario.id,step.id)">Receive</button>
+              </mat-menu>
+              <div fxFlex="90%">{{step.description}}</div>
+            </div>
+          </div>
+
+          <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isStepInputFieldVisible(scenario.id)">
+            <mat-form-field fxFlex="95%">
+              <span matPrefix>Step : </span>
+              <input autofocus matInput [(ngModel)]="stepText" (keyup.enter)="addStep(scenario.id)">
+            </mat-form-field>
+            <button mat-icon-button (click)="cancelAddStep()">
+              <mat-icon color="primary">not_interested</mat-icon>
+            </button>
           </div>
         </div>
 
+        <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="showScenarioInputField">
+          <mat-form-field fxFlex="95%">
+            <span matPrefix>Scenario : </span>
+            <input autofocus matInput [(ngModel)]="scenarioText" (keyup.enter)="addScenario()">
+            <mat-hint>Please type in scenario description and hit enter</mat-hint>
+          </mat-form-field>
+          <button mat-icon-button (click)="cancelAddScenario()">
+            <mat-icon color="primary">not_interested</mat-icon>
+          </button>
+        </div>
+        <div fxLayout fxLayoutAlign="center" *ngIf="showAddScenarioButton">
+          <button fxFlex="99%" mat-raised-button (click)="showAddScenario()">Add Scenario</button>
+        </div>
+
       </div>
-
     </div>
-
   </div>
-
-</section>
+</div>
