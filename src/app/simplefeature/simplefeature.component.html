@@ -23,7 +23,7 @@
             <input autofocus matInput [(ngModel)]="featureText" (keyup.enter)="addFeature()">
           </mat-form-field>
           <button fxFlex="5%" mat-icon-button (click)="cancelAddFeature()">
-            <mat-icon color="primary">not_interested</mat-icon>
+            <mat-icon color="primary">clear</mat-icon>
           </button>
         </div>
         <div fxLayout fxLayoutAlign="center" *ngIf="addFeatureButtonEnabled">
@@ -45,11 +45,20 @@
               <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
             </a>
             <mat-menu #menu="matMenu" [overlapTrigger]="false">
-              <button mat-menu-item (click)="editScenario(scenario.id)">Edit</button>
+              <button mat-menu-item (click)="enableEditScenario(scenario.id)">Edit</button>
               <button mat-menu-item (click)="deleteScenario(scenario.id)">Delete</button>
               <button mat-menu-item (click)="enableAddStepForScenario(scenario.id)">Add step</button>
             </mat-menu>
             <div fxFlex="90%">{{scenario.description}}</div>
+          </div>
+
+          <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isScenarioEditInputFieldVisible(scenario.id)">
+            <mat-form-field fxFlex="95%">
+              <input autofocus matInput [(ngModel)]="scenarioText" (keyup.enter)="updateScenario(scenario.id)">
+            </mat-form-field>
+            <button mat-icon-button (click)="cancelEditScenario()">
+              <mat-icon color="primary">clear</mat-icon>
+            </button>
           </div>
 
           <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let step of scenario.steps">
@@ -72,19 +81,19 @@
               <input autofocus matInput [(ngModel)]="stepText" (keyup.enter)="addStep(scenario.id)">
             </mat-form-field>
             <button mat-icon-button (click)="cancelAddStep()">
-              <mat-icon color="primary">not_interested</mat-icon>
+              <mat-icon color="primary">clear</mat-icon>
             </button>
           </div>
         </div>
 
-        <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="showScenarioInputField">
+        <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isScenarioInputFieldVisible()">
           <mat-form-field fxFlex="95%">
             <span matPrefix>Scenario : </span>
             <input autofocus matInput [(ngModel)]="scenarioText" (keyup.enter)="addScenario()">
             <mat-hint>Please type in scenario description and hit enter</mat-hint>
           </mat-form-field>
           <button mat-icon-button (click)="cancelAddScenario()">
-            <mat-icon color="primary">not_interested</mat-icon>
+            <mat-icon color="primary">clear</mat-icon>
           </button>
         </div>
         <div fxLayout fxLayoutAlign="center" *ngIf="showAddScenarioButton">

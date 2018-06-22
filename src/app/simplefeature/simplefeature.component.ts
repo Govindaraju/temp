@@ -26,10 +26,15 @@ export class SimplefeatureComponent implements OnInit {
   scenarioText: string;
   stepText: string;
 
+  userAction: string;
+
   addFeatureVisible = true;
   addFeatureButtonEnabled = false;
-  showScenarioInputField = false;
   showAddScenarioButton = false;
+
+  private addStepAction = "addStep";
+  private editScenarioAction = "editScenario";
+  private addScenarioAction = "addScenario";
 
   // constructor(public dialog: MatDialog) { }
 
@@ -82,22 +87,49 @@ export class SimplefeatureComponent implements OnInit {
   }
 
   enableAddStepForScenario(scenarioId) {
+    this.setCurrentScenario(scenarioId);
+    this.userAction = this.addStepAction;
+
+  }
+
+  enableEditScenario(scenarioId) {
+    this.setCurrentScenario(scenarioId);
+    this.scenarioText = this.currentScenario.description;
+    this.userAction = this.editScenarioAction;
+  }
+
+  setCurrentScenario(scenarioId) {
     this.currentScenario = this.filterScenario(scenarioId);
   }
 
   showAddScenario() {
-    this.showScenarioInputField = true;
+    this.userAction = this.addScenarioAction;
+    this.scenarioText = null;
     this.showAddScenarioButton = false;
   }
 
   hideAddScenario() {
     this.scenarioText = null;
-    this.showScenarioInputField = false;
+    this.userAction = null;
+    this.showAddScenarioButton = true;
+  }
+
+  hideEditScenario() {
+    this.scenarioText = null;
+    this.userAction = null;
     this.showAddScenarioButton = true;
   }
 
   isStepInputFieldVisible(scenarioId) {
-    return this.currentScenario !== null && this.currentScenario.id == scenarioId;
+    return this.currentScenario !== null && this.currentScenario.id == scenarioId && this.userAction === this.addStepAction;
+  }
+
+  isScenarioEditInputFieldVisible(scenarioId) {
+    return this.currentScenario !== null && this.currentScenario.id == scenarioId && this.userAction === this.editScenarioAction;
+  }
+
+  isScenarioInputFieldVisible() {
+    return this.userAction === this.addScenarioAction;
   }
 
   filterFeature(featureId) {
@@ -110,7 +142,13 @@ export class SimplefeatureComponent implements OnInit {
     scenario.description = this.scenarioText;
     this.currentFeature.scenarios.push(scenario);
     this.hideAddScenario();
-    this.enableAddStepForScenario(scenario.id); scenario
+    this.enableAddStepForScenario(scenario.id);
+  }
+
+  updateScenario(scenarioId) {
+    const scenario = this.filterScenario(scenarioId);
+    scenario.description = this.scenarioText;
+    this.hideEditScenario();
   }
 
   deleteScenario(scenarioId) {
@@ -120,6 +158,10 @@ export class SimplefeatureComponent implements OnInit {
 
   cancelAddScenario() {
     this.hideAddScenario();
+  }
+
+  cancelEditScenario() {
+    this.hideEditScenario();
   }
 
   filterScenario(scenarioId) {

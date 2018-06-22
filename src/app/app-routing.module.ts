@@ -11,8 +11,8 @@ import { SimplefeatureComponent } from './simplefeature/simplefeature.component'
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'features', component: LayoutComponent },
-  { path: 'reports', component: SimplefeatureComponent },
+  { path: 'features', component: SimplefeatureComponent },
+  { path: 'reports', component: LayoutComponent },
   { path: 'run-feature', component: ScenariolistComponent }
 ];
 
