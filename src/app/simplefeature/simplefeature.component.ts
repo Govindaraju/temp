@@ -9,6 +9,8 @@ import { Feature } from '../feature/model/feature';
 import { Scenario } from '../feature/model/scenario';
 import { EditStepTagDialog } from './dialogs/tag/edit.step.tag.dialog';
 import { EditStepReceiveDialog } from './dialogs/receive/edit.step.receive.dialog';
+import { EditScenarioDescriptionDialog } from './dialogs/editscenario/edit.scenario.description';
+import { EditStepDescriptionDialog } from './dialogs/editstep/edit.step.description';
 
 
 @Component({
@@ -18,9 +20,11 @@ import { EditStepReceiveDialog } from './dialogs/receive/edit.step.receive.dialo
 })
 export class SimplefeatureComponent implements OnInit {
 
+
   features: Feature[] = [];
   currentFeature: Feature;
   currentScenario = new Scenario();
+  currentStep: Step;
 
   featureText: string;
   scenarioText: string;
@@ -36,7 +40,7 @@ export class SimplefeatureComponent implements OnInit {
   private editScenarioAction = "editScenario";
   private addScenarioAction = "addScenario";
 
-  // constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -49,6 +53,7 @@ export class SimplefeatureComponent implements OnInit {
 
     this.featureText = null;
     this.featureSelected(feature.id)
+    this.hideAddFeature();
   }
 
   deleteFeature(featureId) {
@@ -59,7 +64,7 @@ export class SimplefeatureComponent implements OnInit {
     }
   }
 
-  cancelAddFeature() {
+  hideAddFeature() {
     this.featureText = null;
     this.addFeatureVisible = false;
     this.addFeatureButtonEnabled = true;
@@ -89,13 +94,15 @@ export class SimplefeatureComponent implements OnInit {
   enableAddStepForScenario(scenarioId) {
     this.setCurrentScenario(scenarioId);
     this.userAction = this.addStepAction;
-
   }
 
-  enableEditScenario(scenarioId) {
-    this.setCurrentScenario(scenarioId);
-    this.scenarioText = this.currentScenario.description;
-    this.userAction = this.editScenarioAction;
+  enableInsertStep(scenarioId, stepId) {
+    this.currentScenario = null;
+    this.setcurrentStep(scenarioId, stepId);
+  }
+
+  setcurrentStep(scenarioId, stepId) {
+    this.currentStep = this.filterStep(scenarioId, stepId);
   }
 
   setCurrentScenario(scenarioId) {
@@ -106,26 +113,27 @@ export class SimplefeatureComponent implements OnInit {
     this.userAction = this.addScenarioAction;
     this.scenarioText = null;
     this.showAddScenarioButton = false;
+    this.currentStep = null;
+    this.stepText = null;
   }
 
   hideAddScenario() {
     this.scenarioText = null;
     this.userAction = null;
     this.showAddScenarioButton = true;
+    this.currentStep = null;
   }
 
-  hideEditScenario() {
+  hideInsertStep() {
     this.scenarioText = null;
-    this.userAction = null;
-    this.showAddScenarioButton = true;
   }
 
   isStepInputFieldVisible(scenarioId) {
     return this.currentScenario !== null && this.currentScenario.id == scenarioId && this.userAction === this.addStepAction;
   }
 
-  isScenarioEditInputFieldVisible(scenarioId) {
-    return this.currentScenario !== null && this.currentScenario.id == scenarioId && this.userAction === this.editScenarioAction;
+  isIncludeStepInputFieldVisible(scenarioId, stepId) {
+    return this.currentStep != null && this.currentStep.id === stepId;
   }
 
   isScenarioInputFieldVisible() {
@@ -145,11 +153,6 @@ export class SimplefeatureComponent implements OnInit {
     this.enableAddStepForScenario(scenario.id);
   }
 
-  updateScenario(scenarioId) {
-    const scenario = this.filterScenario(scenarioId);
-    scenario.description = this.scenarioText;
-    this.hideEditScenario();
-  }
 
   deleteScenario(scenarioId) {
     const index = this.currentFeature.scenarios.indexOf(this.filterScenario(scenarioId));
@@ -160,25 +163,129 @@ export class SimplefeatureComponent implements OnInit {
     this.hideAddScenario();
   }
 
-  cancelEditScenario() {
-    this.hideEditScenario();
-  }
-
   filterScenario(scenarioId) {
     return this.currentFeature.scenarios.find(scenario => scenario.id === scenarioId);
   }
 
-  addStep(scenarioId) {
+  newStep() {
     const step = new Step();
     step.id = Util.key();
     step.description = this.stepText;
+    return step;
+  }
+
+  addStep(scenarioId) {
     const scenario = this.filterScenario(scenarioId);
-    scenario.steps.push(step);
+    scenario.steps.push(this.newStep());
+    this.stepText = null;
+  }
+
+  insertStep(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    const index = scenario.steps.indexOf(this.filterStep(scenarioId, stepId));
+    scenario.steps.splice(index, 0, this.newStep());
+    this.currentStep = null;
     this.stepText = null;
   }
 
   cancelAddStep() {
     this.currentScenario = null;
+    this.hideAddScenario();
   }
 
+  cancelInsertStep() {
+    this.currentScenario = null;
+    this.currentStep = null;
+    this.hideInsertStep();
+  }
+
+  deleteStep(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    const index = scenario.steps.indexOf(this.filterStep(scenarioId, stepId));
+    scenario.steps.splice(index, 1);
+  }
+
+  filterStep(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    return scenario.steps.find(step => step.id === stepId);
+  }
+
+  editScenarioDescription(scenarioId) {
+    const scenario = this.filterScenario(scenarioId);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      scenarioText: `${scenario.description}`
+    };
+    let dialogRef = this.dialog.open(EditScenarioDescriptionDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => { scenario.description = data; }
+    );
+
+  }
+
+  addTagToStep(scenarioId, stepId) {
+    const step = this.filterStep(scenarioId, stepId);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      selectedTag: `${step.tag}`
+    };
+    let dialogRef = this.dialog.open(EditStepTagDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => { step.tag = data; }
+    );
+  }
+
+  configureReceiveMessageForStep(scenarioId, stepId) {
+    const scenario = this.filterScenario(scenarioId);
+    const step = this.filterStep(scenarioId, stepId);
+
+    const msg = JSON.stringify(step.receiveMessage);
+    console.log('msg ', msg);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      scenarioText: `${scenario.description}`,
+      stepText: `${step.description}`,
+      selectedTag: `${step.tag}`,
+      receiveMessage: `${msg}`
+    };
+
+    let dialogRef = this.dialog.open(EditStepReceiveDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== "cancel")
+          step.receiveMessage = data;
+      }
+    );
+  }
+
+  editStepDescription(scenarioId, stepId) {
+    const step = this.filterStep(scenarioId, stepId);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      stepText: `${step.description}`
+    };
+    let dialogRef = this.dialog.open(EditStepDescriptionDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => { step.description = data; }
+    );
+  }
 }

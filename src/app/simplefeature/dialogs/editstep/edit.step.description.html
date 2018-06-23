@@ -1,0 +1,22 @@
+<section>
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+        <div class="editStep">
+            <p class="alignCenter font-18">Edit Step Description </p>
+            <p class="alignLeft font-14">Step Description : {{stepText}}</p>
+        </div>
+
+        <div>
+            <form [formGroup]="stepDescriptionForm" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center">
+                <mat-form-field>
+                    <input matInput formControlName="stepDescription">
+                    <mat-hint>Please type in step description</mat-hint>
+                    <mat-error>Please type in step description</mat-error>
+                </mat-form-field>
+                <div fxLayout fxLayoutGap="5px" fxLayoutAlign="center">
+                    <button type="submit" mat-raised-button color="primary" (click)="done()" [disabled]="!stepDescriptionForm.valid">Done</button>
+                    <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

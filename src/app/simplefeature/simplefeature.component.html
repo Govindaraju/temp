@@ -21,8 +21,9 @@
           <mat-form-field fxFlex="95%">
             <span matPrefix>Feature : </span>
             <input autofocus matInput [(ngModel)]="featureText" (keyup.enter)="addFeature()">
+            <mat-hint>Please type in feature description and hit enter</mat-hint>
           </mat-form-field>
-          <button fxFlex="5%" mat-icon-button (click)="cancelAddFeature()">
+          <button fxFlex="5%" mat-icon-button (click)="hideAddFeature()">
             <mat-icon color="primary">clear</mat-icon>
           </button>
         </div>
@@ -39,26 +40,17 @@
           Feature - {{currentFeatureDescription()}}
         </div>
 
-        <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let scenario of currentFeature.scenarios">
+        <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let scenario of currentFeature.scenarios; let i = index">
           <div fxLayout fxLayoutGap="10px" class="scenario-label">
             <a routerLink="." [matMenuTriggerFor]="menu">
               <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
             </a>
             <mat-menu #menu="matMenu" [overlapTrigger]="false">
-              <button mat-menu-item (click)="enableEditScenario(scenario.id)">Edit</button>
+              <button mat-menu-item (click)="editScenarioDescription(scenario.id)">Edit</button>
               <button mat-menu-item (click)="deleteScenario(scenario.id)">Delete</button>
               <button mat-menu-item (click)="enableAddStepForScenario(scenario.id)">Add step</button>
             </mat-menu>
-            <div fxFlex="90%">{{scenario.description}}</div>
-          </div>
-
-          <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isScenarioEditInputFieldVisible(scenario.id)">
-            <mat-form-field fxFlex="95%">
-              <input autofocus matInput [(ngModel)]="scenarioText" (keyup.enter)="updateScenario(scenario.id)">
-            </mat-form-field>
-            <button mat-icon-button (click)="cancelEditScenario()">
-              <mat-icon color="primary">clear</mat-icon>
-            </button>
+            <div fxFlex="90%">Scenario{{i+1}} - {{scenario.description}}</div>
           </div>
 
           <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let step of scenario.steps">
@@ -67,11 +59,24 @@
                 <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
               </a>
               <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="stepEditTag(scenario.id,step.id)">Tag</button>
+                <button mat-menu-item (click)="editStepDescription(scenario.id,step.id)">Edit</button>
+                <button mat-menu-item (click)="deleteStep(scenario.id,step.id)">Delte</button>
+                <button mat-menu-item (click)="enableInsertStep(scenario.id,step.id)">Add Step</button>
+                <button mat-menu-item (click)="addTagToStep(scenario.id,step.id)">Tag</button>
                 <button mat-menu-item>Send</button>
-                <button mat-menu-item (click)="stepEditReceive(scenario.id,step.id)">Receive</button>
+                <button mat-menu-item (click)="configureReceiveMessageForStep(scenario.id,step.id)">Receive</button>
               </mat-menu>
               <div fxFlex="90%">{{step.description}}</div>
+            </div>
+            <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isIncludeStepInputFieldVisible(scenario.id,step.id)">
+              <mat-form-field fxFlex="95%">
+                <span matPrefix>Step : </span>
+                <input autofocus matInput [(ngModel)]="stepText" (keyup.enter)="insertStep(scenario.id,step.id)">
+                <mat-hint>Please type in step description and hit enter</mat-hint>
+              </mat-form-field>
+              <button mat-icon-button (click)="cancelInsertStep()">
+                <mat-icon color="primary">clear</mat-icon>
+              </button>
             </div>
           </div>
 
@@ -79,6 +84,7 @@
             <mat-form-field fxFlex="95%">
               <span matPrefix>Step : </span>
               <input autofocus matInput [(ngModel)]="stepText" (keyup.enter)="addStep(scenario.id)">
+              <mat-hint>Please type in step description and hit enter</mat-hint>
             </mat-form-field>
             <button mat-icon-button (click)="cancelAddStep()">
               <mat-icon color="primary">clear</mat-icon>

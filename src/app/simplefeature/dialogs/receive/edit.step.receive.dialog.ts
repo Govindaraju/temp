@@ -20,29 +20,32 @@ export class EditStepReceiveDialog {
     scenarioText: string;
     stepText: string;
 
-    //messageDestination: string;
-    // messageFilter: string;
-
-    //xpath: string;
-    //condition: string;
-    //expectedValue: string;
-
     receiveMessage: ReceiveMessage;
+
     visibleSecton = "destination";
     assertMode = 'add';
     assertCaption = 'Add Assert';
+
     assertBeingEdited: string;
     operators: string[] = ['Equal to', 'Not equal to', 'Greater than', 'Less than', 'In between', 'Contains'];
-
     displayedColumns = ['Xpath', 'Condition', 'Value', 'Action'];
 
-    constructor(private dialogRef: MatDialogRef<EditStepTagDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    configCleared = false;
+    receiveConfigExists = false;
+
+    constructor(private dialogRef: MatDialogRef<EditStepReceiveDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.buildForm();
-        console.log('data passed ', data);
         this.scenarioText = data.scenarioText;
         this.stepText = data.stepText;
-        this.receiveMessage = new ReceiveMessage();
-        this.receiveMessage.id = Util.key();
+
+        if (data.receiveMessage !== "undefined") {
+            this.receiveMessage = JSON.parse(data.receiveMessage);
+            this.messageDestinationForm.get('destination').setValue(this.receiveMessage.messageDestination);
+            this.messageDestinationForm.get('filter').setValue(this.receiveMessage.messageFilter);
+            this.receiveConfigExists = true;
+        } else {
+            this.initialiseReceive();
+        }
     }
 
     buildForm(): any {
@@ -67,12 +70,24 @@ export class EditStepReceiveDialog {
             }),
         });
     }
-    done() {
-        this.dialogRef.close();
+
+    initialiseReceive() {
+        if (this.receiveMessage === undefined) {
+            this.receiveMessage = new ReceiveMessage();
+            this.receiveMessage.id = Util.key();
+        }
     }
 
-    close() {
-        this.dialogRef.close();
+    done() {
+        let result = this.receiveMessage;
+        if (this.configCleared) {
+            result = undefined;
+        }
+        this.dialogRef.close(result);
+    }
+
+    cancel() {
+        this.dialogRef.close("cancel");
     }
 
     showSection(section) {
@@ -92,11 +107,18 @@ export class EditStepReceiveDialog {
         this.assertMode = 'add';
     }
 
-    onSubmit() {
-        console.log('onsubmit called');
+    saveAssert() {
+        if (this.assertMode === "add") {
+            this.createNewAssert();
+        } else if (this.assertMode === "update") {
+            this.updateAssert();
+        } else {
+            console.log('action did not match');
+        }
     }
 
-    saveAssert() {
+    createNewAssert() {
+        this.initialiseReceive();
         const assert = new Assert();
         assert.id = Util.key();
         assert.xpath = this.assetForm.get('xpath').value;
@@ -105,10 +127,21 @@ export class EditStepReceiveDialog {
         this.receiveMessage.asserts.push(assert);
     }
 
+    updateAssert() {
+        const assert = this.filterAssert(this.assertBeingEdited);
+        assert.xpath = this.assetForm.get('xpath').value;
+        assert.condition = this.assetForm.get('condition').value;
+        assert.value = this.assetForm.get('expectedValue').value;
+
+        this.assertBeingEdited = null;
+        this.assertMode = 'add';
+        this.visibleSecton = 'viewAsserts';
+        this.assertCaption = 'Add Assert'
+    }
+
     deleteAssert(assertId) {
         const index = this.receiveMessage.asserts.indexOf(this.filterAssert(assertId));
         this.receiveMessage.asserts.splice(index, 1);
-        console.log('current value ', this.receiveMessage.asserts);
         this.table.renderRows();
     }
 
@@ -124,20 +157,24 @@ export class EditStepReceiveDialog {
         this.assertBeingEdited = assertId;
     }
 
-    updateAssert() {
-        const assert = this.filterAssert(this.assertBeingEdited);
-        assert.xpath = this.assetForm.get('xpath').value;
-        assert.condition = this.assetForm.get('condition').value;
-        assert.value = this.assetForm.get('expectedValue').value;
+    clearReceiveConfig() {
+        this.receiveMessage = new ReceiveMessage();
+        this.configCleared = true;
+        this.messageDestinationForm.get('destination').setValue(null);
+        this.messageDestinationForm.get('filter').setValue(null);
+        this.assetForm.get('xpath').setValue(null);
+        this.assetForm.get('condition').setValue(null);
+        this.assetForm.get('expectedValue').setValue(null);
 
-        this.assertBeingEdited = null;
-        this.assertMode = 'add';
-        this.visibleSecton = 'viewAsserts';
-        this.assertCaption = 'Add Assert'
+
     }
 
-    isVisible(action) {
-        return this.assertMode === action;
+    isVisible() {
+        return (this.assertMode === 'add' || this.assertMode === 'update');
+    }
+
+    assertIcon() {
+        return this.assertMode;
     }
 
     filterAssert(assertId) {

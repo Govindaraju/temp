@@ -10,7 +10,8 @@
             <mat-chip-list>
                 <mat-chip [selected]="isCurrentSection('destination')" (click)="showSection('destination')">Message Destination</mat-chip>
                 <mat-chip [selected]="isCurrentSection('addNewAssert')" (click)="showSection('addNewAssert')">{{assertCaption}}</mat-chip>
-                <mat-chip [selected]="isCurrentSection('viewAsserts')" (click)="showSection('viewAsserts')">View Assert</mat-chip>
+                <mat-chip [selected]="isCurrentSection('viewAsserts')" (click)="showSection('viewAsserts')">View/Edit Assert</mat-chip>
+                <mat-chip [selected]="receiveConfigExists" (click)="clearReceiveConfig()" *ngIf="receiveConfigExists">Clear</mat-chip>
             </mat-chip-list>
         </div>
 
@@ -33,7 +34,7 @@
         </div>
 
         <div *ngIf="isCurrentSection('addNewAssert')">
-            <form fxLayout="column" fxLayoutGap="10px" [formGroup]="assetForm" fxLayoutAlign="center" (ngSubmit)="saveDestination()">
+            <form fxLayout="column" fxLayoutGap="10px" [formGroup]="assetForm" fxLayoutAlign="center" (ngSubmit)="saveAssert()">
                 <mat-form-field>
                     <textarea matInput formControlName="xpath"></textarea>
                     <mat-hint>Enter xpath for actuval value</mat-hint>
@@ -54,11 +55,8 @@
                         <mat-hint>Expected value</mat-hint>
                         <mat-error>Please enter expected value</mat-error>
                     </mat-form-field>
-                    <button color="primary" type="submit" mat-fab (click)="saveAssert()" *ngIf="isVisible('add')" [disabled]="assetForm.pristine">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                    <button color="primary" type="submit" mat-fab (click)="updateAssert()" *ngIf="isVisible('update')" [disabled]="assetForm.pristine">
-                        <mat-icon>update</mat-icon>
+                    <button type="submit" color="primary" mat-fab *ngIf="isVisible()" [disabled]="assetForm.pristine">
+                        <mat-icon>{{assertIcon()}}</mat-icon>
                     </button>
                 </div>
             </form>
@@ -101,7 +99,7 @@
 
         <div fxLayout fxLayoutGap="5px" fxLayoutAlign="center">
             <button mat-raised-button color="primary" (click)="done()">Done</button>
-            <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
         </div>
     </div>
 </section>

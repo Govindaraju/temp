@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {NgPipesModule} from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { MaterialModule } from './common/material.module';
@@ -28,6 +28,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { EditStepTagDialog } from './simplefeature/dialogs/tag/edit.step.tag.dialog';
 import { AutofocusDirective } from './autofocus.directive';
 import { EditStepReceiveDialog } from './simplefeature/dialogs/receive/edit.step.receive.dialog';
+import { EditScenarioDescriptionDialog } from './simplefeature/dialogs/editscenario/edit.scenario.description';
+import { EditStepDescriptionDialog } from './simplefeature/dialogs/editstep/edit.step.description';
 
 
 @NgModule({
@@ -48,11 +50,15 @@ import { EditStepReceiveDialog } from './simplefeature/dialogs/receive/edit.step
     SimplefeatureComponent,
     EditStepTagDialog,
     EditStepReceiveDialog,
+    EditScenarioDescriptionDialog,
+    EditStepDescriptionDialog,
     AutofocusDirective
   ],
   entryComponents: [
     EditStepTagDialog,
-    EditStepReceiveDialog
+    EditStepReceiveDialog,
+    EditScenarioDescriptionDialog,
+    EditStepDescriptionDialog
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,7 @@ import { EditStepReceiveDialog } from './simplefeature/dialogs/receive/edit.step
     NgPipesModule,
     MatDialogModule
   ],
-  providers: [{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
+  providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
