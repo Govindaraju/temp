@@ -54,20 +54,6 @@
           </div>
 
           <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let step of scenario.steps">
-            <div fxLayout fxLayoutGap="10px" class="step-label">
-              <a routerLink="." [matMenuTriggerFor]="menu">
-                <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
-              </a>
-              <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="editStepDescription(scenario.id,step.id)">Edit</button>
-                <button mat-menu-item (click)="deleteStep(scenario.id,step.id)">Delte</button>
-                <button mat-menu-item (click)="enableInsertStep(scenario.id,step.id)">Add Step</button>
-                <button mat-menu-item (click)="addTagToStep(scenario.id,step.id)">Tag</button>
-                <button mat-menu-item>Send</button>
-                <button mat-menu-item (click)="configureReceiveMessageForStep(scenario.id,step.id)">Receive</button>
-              </mat-menu>
-              <div fxFlex="90%">{{step.description}}</div>
-            </div>
             <div fxLayout fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="isIncludeStepInputFieldVisible(scenario.id,step.id)">
               <mat-form-field fxFlex="95%">
                 <span matPrefix>Step : </span>
@@ -77,6 +63,20 @@
               <button mat-icon-button (click)="cancelInsertStep()">
                 <mat-icon color="primary">clear</mat-icon>
               </button>
+            </div>
+            <div fxLayout fxLayoutGap="10px" class="step-label">
+              <a routerLink="." [matMenuTriggerFor]="menu">
+                <mat-icon class="ic-size-16" color="primary">menu</mat-icon>
+              </a>
+              <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="editStepDescription(scenario.id,step.id)">Edit</button>
+                <button mat-menu-item (click)="deleteStep(scenario.id,step.id)">Delete</button>
+                <button mat-menu-item (click)="enableInsertStep(scenario.id,step.id)">Add Step</button>
+                <button mat-menu-item (click)="addTagToStep(scenario.id,step.id)">Tag</button>
+                <button mat-menu-item>Send</button>
+                <button mat-menu-item (click)="configureReceiveMessageForStep(scenario.id,step.id)">Receive</button>
+              </mat-menu>
+              <div fxFlex="90%">{{step.description}}</div>
             </div>
           </div>
 
