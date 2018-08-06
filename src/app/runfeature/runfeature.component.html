@@ -1,3 +1,51 @@
-<p>
-  runfeature works!
-</p>
+<div class="feature-main">
+
+  <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2px">
+
+    <div id="leftPart" fxLayout="column" fxLayoutAlign="start center" fxFlex="30%" class="frame">
+
+      <div fxLayout="column" fxLayoutGap="5px" class="feature">
+        <div class="feature-label">Features</div>
+        <div *ngIf="features.length > 0">
+          <mat-nav-list>
+            <mat-list-item *ngFor="let feature of features" (click)="featureSelected(feature.id)">
+              <h3 matLine> {{feature.description}} </h3>
+              <button mat-icon-button (click)="deleteFeature(feature.id)">
+                <mat-icon color="primary" matListAvatar>play_arrow</mat-icon>
+              </button>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+      </div>
+    </div>
+
+    <div id="rightPart" fxLayout="column" fxLayoutAlign="start center" fxFlex="70%" class="frame">
+      <div fxLayout="column" fxLayoutGap="5px" class="feature" *ngIf="isCurrentFeatureValid()">
+
+        <div class="feature-label">
+          Feature - {{currentFeatureDescription()}}
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let scenario of currentFeature.scenarios; let i = index">
+          <div fxLayout="column" fxLayoutGap="10px" class="scenario-label">
+            <div>
+              <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+            </div>
+            <div fxFlex="90%">Scenario{{i+1}} - {{scenario.description}}</div>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="start stretch" *ngFor="let step of scenario.steps">
+            <div fxLayout fxLayoutGap="10px" class="step-label">
+              <mat-progress-spinner [color]="color" diameter="30" strokeWidth="3" value="75"></mat-progress-spinner>
+              <div fxFlex="90%">{{step.description}}</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,75 @@
+
+.feature-main{
+    padding-left: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 3px;
+    font-family: 'Roboto', sans-serif;
+    background-color: gainsboro;
+    font-size: 14px;
+  }
+
+//   .example-margin {
+//     margin: 0 10px;
+//   }
+
+.frame{
+    background-color:white;
+    min-height: 800px;
+  }
+
+.feature{
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    width: 100%; 
+}
+
+.feature-label{
+    padding: 15px 15px;
+    text-align: center;
+    background-color: rgba(211, 211, 211, 0.555);
+}
+
+.scenario-label{
+    padding: 15px 15px;
+    text-align: left;
+    background-color:rgba(208, 227, 247, 0.87);
+}
+
+.step-label{
+    margin-top : 2px;
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    //padding-right: 15px;
+
+    text-align: left;
+    background-color:rgba(242, 245, 248, 0.932);
+}
+
+.features-input{
+    padding: 10px 10px;
+}
+
+.step {
+    background-color: rgb(241, 237, 237);
+    width: 100%;
+}
+mat-prefix,mat-hint {
+    font-size: 14px;
+}
+
+@mixin md-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+    line-height: $size;
+  }
+
+.ic-size-16 {
+    @include md-icon-size(16px);
+    padding: 2px 2px 5px 2px;
+}
+

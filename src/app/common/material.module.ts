@@ -4,6 +4,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 
+
 import {
   MatButtonModule,
   MatIconModule,
@@ -24,7 +25,8 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatGridListModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 
@@ -53,7 +55,8 @@ import {
     MatExpansionModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
@@ -79,7 +82,8 @@ import {
     MatExpansionModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule
   ]
   
 })

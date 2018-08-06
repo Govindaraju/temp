@@ -19,8 +19,6 @@ import { EditStepDescriptionDialog } from './dialogs/editstep/edit.step.descript
   styleUrls: ['./simplefeature.component.scss']
 })
 export class SimplefeatureComponent implements OnInit {
-
-
   features: Feature[] = [];
   currentFeature: Feature;
   currentScenario = new Scenario();
